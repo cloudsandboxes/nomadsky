@@ -8,8 +8,8 @@
     /* Global styles */
     body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-        color: #fff;
+        background: linear-gradient(135deg, #1e3a5f, #2d5a7b, #3d7a9c);
+        color: #ffffff;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -18,86 +18,97 @@
         margin: 0;
         padding: 0 20px;
     }
-
     h1 {
-        font-size: 3em;
+        font-size: 2.5em;
         margin-top: 50px;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        background: linear-gradient(90deg, #f3ec78, #af4261);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        font-weight: 300;
+        letter-spacing: 1px;
+        color: #ffffff;
+        text-align: center;
     }
-
     .form-container {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid rgba(45, 90, 123, 0.3);
         padding: 40px;
-        border-radius: 20px;
+        border-radius: 12px;
         margin-top: 50px;
         max-width: 400px;
         width: 100%;
-        backdrop-filter: blur(10px);
-        box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     }
-
     label {
         display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-        color: #f0f0f0;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #2c3e50;
+        font-size: 0.9em;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
-
     input, select {
         width: 100%;
         padding: 12px 15px;
         margin-bottom: 25px;
-        border: none;
-        border-radius: 10px;
-        background: rgba(255,255,255,0.1);
-        color: #fff;
+        border: 2px solid #e0e0e0;
+        border-radius: 6px;
+        background: #ffffff;
+        color: #2c3e50;
         font-size: 1em;
         outline: none;
-        transition: background 0.3s, transform 0.2s;
+        transition: border-color 0.3s, box-shadow 0.3s;
+        box-sizing: border-box;
     }
-
     input:focus, select:focus {
-        background: rgba(255,255,255,0.2);
-        transform: scale(1.02);
+        border-color: #3d7a9c;
+        box-shadow: 0 0 0 3px rgba(61, 122, 156, 0.1);
     }
-
+    input::placeholder {
+        color: #95a5a6;
+    }
+    select {
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232c3e50' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        background-size: 20px;
+        padding-right: 40px;
+    }
     button {
         width: 100%;
         padding: 15px;
         border: none;
-        border-radius: 12px;
-        background: linear-gradient(90deg, #f3ec78, #af4261);
-        color: #000;
-        font-weight: bold;
-        font-size: 1.1em;
+        border-radius: 6px;
+        background: linear-gradient(135deg, #2d5a7b, #3d7a9c);
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 1em;
         cursor: pointer;
-        transition: transform 0.2s, box-shadow 0.2s;
+        transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
-
     button:hover {
-        transform: scale(1.05);
-        box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+        background: linear-gradient(135deg, #3d7a9c, #4d8aac);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(45, 90, 123, 0.4);
     }
-
+    button:active {
+        transform: translateY(0);
+    }
     @media (max-width: 480px) {
         .form-container {
-            padding: 25px;
+            padding: 30px 25px;
         }
         h1 {
             font-size: 2em;
+            margin-top: 30px;
         }
     }
 </style>
 </head>
 <body>
-
 <h1>Cloud VM Orchestrator</h1>
-
 <div class="form-container">
     <form>
         <label for="source">Source Platform</label>
@@ -106,20 +117,16 @@
             <option value="aws">AWS</option>
             <option value="gcp">GCP</option>
         </select>
-
         <label for="destination">Destination Platform</label>
         <select id="destination" name="destination">
             <option value="azure">Azure</option>
             <option value="aws">AWS</option>
             <option value="gcp">GCP</option>
         </select>
-
         <label for="vmname">VM Name</label>
         <input type="text" id="vmname" name="vmname" placeholder="Enter VM Name">
-
         <button type="submit">Deploy VM</button>
     </form>
 </div>
-
 </body>
 </html>
