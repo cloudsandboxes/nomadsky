@@ -5,12 +5,18 @@ import os
 from azure.identity import DefaultAzureCredential
 from urllib.parse import urlparse
 
+from azure.identity import DefaultAzureCredential
+from azure.mgmt.compute import ComputeManagementClient
+from azure.mgmt.network import NetworkManagementClient
+from azure.mgmt.resource import SubscriptionClient, ResourceManagementClient
+
+
 # -------------------------------
 # VARIABLES
 # -------------------------------
 subscription_id = "<SUBSCRIPTION_ID>"
 resource_group  = "<RESOURCE_GROUP>"
-vm_name         = "<VM_NAME>"
+TARGET_VM_NAME  = "<VM_NAME>"
 output_vhd_path = r"C:\Temp\osdisk.vhd"
 
 # -------------------------------
@@ -47,6 +53,80 @@ def poll_async_operation(operation_url, credential, timeout=600, poll_interval=5
 # -------------------------------
 # MAIN SCRIPT
 # -------------------------------
+
+# -------------------------------
+# MAIN SCRIPT
+# -------------------------------
+
+Login step 
+# Login 
+
+# Authenticate using DefaultAzureCredential (supports environment, VS Code, CLI login, etc.)
+credential = DefaultAzureCredential()
+
+subscription_client = SubscriptionClient(credential)
+
+vm_found = False
+
+for sub in subscription_client.subscriptions.list():
+    subscription_id = sub.subscription_id
+    compute_client = ComputeManagementClient(credential, subscription_id)
+    resource_client = ResourceManagementClient(credential, subscription_id)
+    network_client = NetworkManagementClient(credential, subscription_id)
+
+    for rg in resource_client.resource_groups.list():
+        resource_group_name = rg.name
+        try:
+            vm = compute_client.virtual_machines.get(resource_group_name, TARGET_VM_NAME)
+        except Exception:
+            continue  # VM not found in this resource group
+
+        # VM found
+        vm_found = True
+
+        # VM basic info
+        vm_name = vm.name
+        vm_size = vm.hardware_profile.vm_size
+        os_type = vm.storage_profile.os_disk.os_type.value
+        resource_id = vm.id
+
+        # Get network interface
+        nic_id = vm.network_profile.network_interfaces[0].id
+        nic_name = nic_id.split('/')[-1]
+        nic_rg = nic_id.split('/')[4]
+        nic = network_client.network_interfaces.get(nic_rg, nic_name)
+
+        # Subnet info
+        subnet = nic.ip_configurations[0].subnet
+        subnet_range = subnet.address_prefix if subnet else "N/A"
+
+        # Public IP if exists
+        public_ip_address = "None"
+        if nic.ip_configurations[0].public_ip_address:
+            public_ip_id = nic.ip_configurations[0].public_ip_address.id
+            public_ip_name = public_ip_id.split('/')[-1]
+            public_ip_rg = public_ip_id.split('/')[4]
+            public_ip = network_client.public_ip_addresses.get(public_ip_rg, public_ip_name)
+            public_ip_address = public_ip.ip_address or "None"
+
+        # Print info
+        print(f"VM Name: {vm_name}")
+        print(f"OS: {os_type}")
+        print(f"Size: {vm_size}")
+        print(f"Resource ID: {resource_id}")
+        print(f"Subnet Range: {subnet_range}")
+        print(f"Public IP: {public_ip_address}")
+        break
+
+    if vm_found:
+        break
+
+if not vm_found:
+    print("Specific VM not found, check credentials or VM name.")
+
+
+
+
 try:
     credential = DefaultAzureCredential()
     
