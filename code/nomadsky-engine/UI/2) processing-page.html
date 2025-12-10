@@ -394,8 +394,9 @@ function simulateMigration() {
             setTimeout(() => {
                 updateStep(step.id, 'completed', step.message);
                 currentStep++;
-            simulateVMNotFoundError(); // VM not found scenario
-                
+            if (vmnames !== production-server-1){
+                simulateVMNotFoundError(); // VM not found scenario
+                            }
                 // Show success banner after last step
                 if (currentStep === steps.length) {
                     setTimeout(() => {
@@ -418,6 +419,7 @@ function simulateVMNotFoundError() {
     updateStep('step1', 'error', 'VM not found in source platform', {
         type: 'vm-list',
         vms: ['production-server-02', 'dev-server-01', 'test-vm-03', 'staging-app-01']
+        throw
     });
 }
 
