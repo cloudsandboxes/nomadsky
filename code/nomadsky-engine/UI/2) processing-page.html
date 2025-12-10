@@ -390,6 +390,7 @@ function simulateMigration() {
             updateStep(step.id, 'running', 'Processing...');
             
             // Complete after duration
+            simulateVMNotFoundError(); // VM not found scenario
             setTimeout(() => {
                 updateStep(step.id, 'completed', step.message);
                 currentStep++;
@@ -430,8 +431,8 @@ function simulateGenericError(stepId) {
 // Auto-start simulation on page load (REMOVE THIS IN PRODUCTION)
 window.addEventListener('load', () => {
     // Choose one:
-    // simulateMigration(); // Normal flow
-    simulateVMNotFoundError(); // VM not found scenario
+    simulateMigration(); // Normal flow
+    // simulateVMNotFoundError(); // VM not found scenario
 });
 </script>
 </body>
