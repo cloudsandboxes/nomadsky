@@ -3,6 +3,7 @@
 ## Stay Digitally Sovereign. Move Your Server Workloads Anywhere You Want.
 
 Take full control over where your applications run — in any cloud or infrastructure. No vendor lock-in. No friction. Complete oversight of location, costs, and compliance — from Azure to ZeroCloud and everything in between.
+Check our demo, [here](https://htmlpreview.github.io/?https://github.com/cloudsandboxes/nomadsky/blob/main/code/nomadsky-engine/UI/interface.html)
 
 ### Key Benefits
 
@@ -35,7 +36,7 @@ Take full control over where your applications run — in any cloud or infrastru
         |          |  +          |          |  +
         |          | /           |          | /
         '----------'             '----------'
-engin
+
 
 ### Step 1: Download image.
 The code for this step is in folder named "Download images", and it depends on the vendor you are migrating from. 
