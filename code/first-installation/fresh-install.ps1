@@ -36,7 +36,7 @@ Check error logs:
 ===============================================================================
 #>
 param(
-    [string]$GithubRepoUrl = "https://github.com/username/repository.git",
+    [string]$GithubRepoUrl = "https://github.com/cloudsandboxes/nomadsky/repository.git",
     [string]$CloneDirectory = "C:\Projects"
 )
 
