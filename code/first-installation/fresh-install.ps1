@@ -1,5 +1,39 @@
-# PowerShell script to install Python, Git, and clone a GitHub repository
-# Run this script as Administrator
+<#
+===============================================================================
+FUNCTION TEMPLATE — AI & VIBE CODER FRIENDLY
+===============================================================================
+WHAT THIS FUNCTION DOES
+-----------------------
+Installs Python, GIT and GITHUB repo on a new VM. 
+
+Prompt:
+I need a powershell script that downloads Python and git to a windows server and then clone an existing github repo.  This programs should be installed on a good location, so they could be used by the github code.
+
+PARAMETERS (INPUT)
+------------------
+$GithubRepoUrl = the URL of NomadSky code.
+$CloneDirectory = location on server to install the source code. 
+
+EXPECTED OUTPUT
+---------------
+- A server running the software. 
+
+LOGGING POLICY
+--------------
+
+Remarks
+--------------
+PowerShell script to install Python, Git, and clone a GitHub repository
+Run this script as Administrator
+
+Troubleshoot actions
+------------------
+Check if python is installed:
+Check if git is installed:
+Check if repo is installed:
+Check error logs:
+
+===============================================================================
 
 param(
     [string]$GithubRepoUrl = "https://github.com/username/repository.git",
