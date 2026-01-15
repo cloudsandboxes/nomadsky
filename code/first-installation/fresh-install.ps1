@@ -11,7 +11,7 @@ I need a powershell script that downloads Python and git to a windows server and
 
 PARAMETERS (INPUT)
 ------------------
-$GithubRepoUrl = the URL of NomadSky code.
+$RepoUrl = the URL of NomadSky code.
 $CloneDirectory = location on server to install the source code. 
 
 EXPECTED OUTPUT
@@ -238,33 +238,99 @@ Write-Host "To verify, open a new PowerShell window and run: git --version" -For
 
 # Clone GitHub repository
 Write-Host "`n[3/3] Cloning GitHub repository..." -ForegroundColor Cyan
+# PowerShell script to clone a GitHub repository
 
+# Extract repository name from URL
+Write-Host "`nParsing repository URL..." -ForegroundColor Cyan
+$repoName = ($RepoUrl -split '/')[-1] -replace '\.git$', ''
+Write-Host "Repository name: $repoName" -ForegroundColor Gray
+
+# Create clone directory if it doesn't exist
 if (-not (Test-Path $CloneDirectory)) {
-    New-Item -ItemType Directory -Force -Path $CloneDirectory | Out-Null
+    Write-Host "`nCreating directory: $CloneDirectory" -ForegroundColor Cyan
+    try {
+        New-Item -ItemType Directory -Force -Path $CloneDirectory | Out-Null
+        Write-Host "Directory created successfully" -ForegroundColor Green
+    } catch {
+        Write-Host "ERROR: Could not create directory: $_" -ForegroundColor Red
+        echo $"help"
+    }
 }
+
+# Full path where repo will be cloned
+$repoPath = Join-Path $CloneDirectory $repoName
+
+# Check if repository already exists
+if (Test-Path $repoPath) {
+    Write-Host "`nRepository already exists at: $repoPath" -ForegroundColor Yellow
+    $choice = Read-Host "Do you want to (p)ull latest changes, (d)elete and re-clone, or (c)ancel? [p/d/c]"
+    
+    switch ($choice.ToLower()) {
+        'p' {
+            Write-Host "`nPulling latest changes..." -ForegroundColor Cyan
+            Set-Location $repoPath
+            try {
+                & $gitExe pull
+                Write-Host "`nRepository updated successfully!" -ForegroundColor Green
+                Write-Host "Location: $repoPath" -ForegroundColor Cyan
+                exit 0
+            } catch {
+                Write-Host "ERROR: Failed to pull changes: $_" -ForegroundColor Red
+                exit 1
+            }
+        }
+        'd' {
+            Write-Host "`nDeleting existing repository..." -ForegroundColor Yellow
+            try {
+                Remove-Item -Path $repoPath -Recurse -Force
+                Write-Host "Deleted successfully" -ForegroundColor Green
+            } catch {
+                Write-Host "ERROR: Could not delete existing repository: $_" -ForegroundColor Red
+                exit 1
+            }
+        }
+        default {
+            Write-Host "Operation cancelled" -ForegroundColor Yellow
+            exit 0
+        }
+    }
+}
+
+# Clone the repository
+Write-Host "`nCloning repository..." -ForegroundColor Cyan
+Write-Host "From: $RepoUrl" -ForegroundColor Gray
+Write-Host "To: $repoPath" -ForegroundColor Gray
 
 try {
     Set-Location $CloneDirectory
     
-    # Extract repo name from URL
-    $RepoName = ($GithubRepoUrl -split '/')[-1] -replace '\.git$'
-    $RepoPath = Join-Path $CloneDirectory $RepoName
-    
-    if (Test-Path $RepoPath) {
-        Write-Host "Repository already exists at $RepoPath" -ForegroundColor Yellow
-        Write-Host "Pulling latest changes..."
-        Set-Location $RepoPath
-        & "$GitInstallPath\cmd\git.exe" pull
-    } else {
-        Write-Host "Cloning repository to $RepoPath..."
-        & "$GitInstallPath\cmd\git.exe" clone $GithubRepoUrl
+    # Execute git clone
+    & $gitExe clone $RepoUrl 2>&1 | ForEach-Object {
+        Write-Host $_ -ForegroundColor Gray
     }
     
-    Write-Host "Repository cloned successfully!" -ForegroundColor Green
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "`n=== Clone Successful ===" -ForegroundColor Green
+        Write-Host "Repository cloned to: $repoPath" -ForegroundColor Cyan
+        
+        # Show repository info
+        if (Test-Path $repoPath) {
+            Set-Location $repoPath
+            Write-Host "`nRepository information:" -ForegroundColor Cyan
+            & $gitExe remote -v
+            Write-Host ""
+            & $gitExe branch
+        }
+    } else {
+        Write-Host "`nERROR: Git clone failed with exit code $LASTEXITCODE" -ForegroundColor Red
+    }
 } catch {
-    Write-Host "Error cloning repository: $_" -ForegroundColor Red
+    Write-Host "ERROR: Failed to clone repository: $_" -ForegroundColor Red
     exit 1
 }
+
+Write-Host "`nDone!" -ForegroundColor Green
+
 
 # Cleanup
 Write-Host "`nCleaning up temporary files..." -ForegroundColor Cyan
@@ -274,8 +340,6 @@ Remove-Item -Path $TempDir -Recurse -Force -ErrorAction SilentlyContinue
 Write-Host "`n=== Installation Summary ===" -ForegroundColor Green
 Write-Host "Python version:" -NoNewline
 & "$PythonInstallPath\python.exe" --version
-Write-Host "Git version:" -NoNewline
-& "$GitInstallPath\cmd\git.exe" --version
 Write-Host "Repository location: $CloneDirectory\$RepoName"
 
 Write-Host "`nInstallation complete! Please restart your PowerShell session for PATH changes to take full effect." -ForegroundColor Green
