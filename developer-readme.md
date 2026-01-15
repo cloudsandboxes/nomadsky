@@ -76,7 +76,7 @@ LOGGING POLICY
 - Use logging.warning() for recoverable issues
 - Do NOT log sensitive data
 ===============================================================================
-~~~
+
 import logging
 from typing import Any, Optional
 logger = logging.getLogger(__name__)
