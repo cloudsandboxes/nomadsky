@@ -2,6 +2,7 @@
 """
 Python script to upload HTML files to IIS from a fixed folder location
 Usage: python start-iis-initial-website.py --source "C:\path\to\your\folder" --file "index.html"
+py start-iis-initial-website.py --source "C:\\projects\\nomadsky\\code\\nomadsky-engine\\UI" --all
 """
 
 import os
