@@ -44,7 +44,13 @@ class Api:
     def navigate(self, source, destination, vmname):
         global form_data
         form_data = {'source': source, 'destination': destination, 'vmname': vmname}
-        show_processing_page()
+        
+        import threading
+        def load():
+            import time
+            time.sleep(0.1)
+            show_processing_page()
+        threading.Thread(target=load, daemon=True).start()
 
 api = Api()
 window = webview.create_window('VM Migration Tool', html=form_html, js_api=api)
