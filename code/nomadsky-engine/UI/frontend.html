@@ -129,17 +129,16 @@
 </form>
 <div id="result"></div>
     <script>
-        function migrate() {
-            const source = document.getElementById('source').value;
-            const destination = document.getElementById('destination').value;
-            const vmname = document.getElementById('vmname').value;
-            pywebview.api.show_processing_page(source, destination, vmname);
-        }
-    </script>     
-}
-
+    function migrate() {
+    const source = document.getElementById('source').value;
+    const destination = document.getElementById('destination').value;
+    const vmname = document.getElementById('vmname').value;
     
-
+    // Navigate to custom URL (no pywebview.api needed!)
+    window.location.href = `submit://?source=${source}&destination=${destination}&vmname=${vmname}`;
+    }
+    </script>     
+    
 </div>
 </body>
 </html>
