@@ -53,7 +53,7 @@ class Api:
         threading.Thread(target=load, daemon=True).start()
 
 api = Api()
-window = webview.create_window('VM Migration Tool', html=form_html, js_api=api)
+window = webview.create_window('VM Migration Tool', html=form_html, js_api=api, width=1366, height=768)
 
 # Start webview
 webview.start()
