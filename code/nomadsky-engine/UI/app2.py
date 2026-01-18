@@ -1,31 +1,49 @@
 import webview
+from urllib.parse import urlparse, parse_qs
 
-class API:
-    def show_processing_page(self, source, destination, vmname):
-        # Store values globally so processing page can access them
-        self.source = source
-        self.destination = destination
-        self.vmname = vmname
-        
-        # Load the processing page
-        try:
-            window.load_url('C:/projects/nomadsky/code/nomadsky-engine/UI/2)processing-page.html')
-        except:
-            pass
-        return None
+# Global variables to store form data
+form_data = {}
+
+def on_navigation(url):
+    """Handle custom URL navigation"""
+    global form_data
     
-    def get_values(self):
-        return {
-            'source': getattr(self, 'source', 'Unknown'),
-            'destination': getattr(self, 'destination', 'Unknown'),
-            'vmname': getattr(self, 'vmname', 'Unknown')
-        }
+    if url.startswith('submit://'):
+        # Parse the URL parameters
+        parsed = urlparse(url)
+        params = parse_qs(parsed.query)
+        
+        # Store form data
+        form_data['source'] = params.get('source', [''])[0]
+        form_data['destination'] = params.get('destination', [''])[0]
+        form_data['vmname'] = params.get('vmname', [''])[0]
+        
+        # Load processing page
+        show_processing_page()
+        
+        return False  # Prevent default navigation
+
+def show_processing_page():
+    """Load the processing page with form data"""
+    with open('C:/projects/nomadsky/code/nomadsky-engine/UI/2)processing-page.html', 'r') as f:
+        html = f.read()
+    
+    # Replace placeholders
+    html = html.replace('{{source}}', form_data.get('source', ''))
+    html = html.replace('{{destination}}', form_data.get('destination', ''))
+    html = html.replace('{{vmname}}', form_data.get('vmname', ''))
+    
+    window.load_html(html)
 
 # Read the form HTML
 with open('C:/projects/nomadsky/code/nomadsky-engine/UI/frontend.html', 'r') as f:
     form_html = f.read()
 
-# Create the window
-api = API()
-window = webview.create_window('VM Migration Tool', html=form_html, js_api=api)
+# Create window
+window = webview.create_window('VM Migration Tool', html=form_html)
+
+# Listen for navigation events
+window.events.loaded += lambda: print("Page loaded")
+
+# Start webview
 webview.start()
