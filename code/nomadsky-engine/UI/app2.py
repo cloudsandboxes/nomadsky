@@ -1,33 +1,21 @@
 import webview
 
-class Api:
-    def __init__(self):
-        self.window = None
-    
+class API:
     def show_processing_page(self, source, destination, vmname):
-        # Load HTML from file
         with open('C:/projects/nomadsky/code/nomadsky-engine/UI/2)processing-page.html', 'r') as f:
-            processing_html = f.read()
+            html = f.read()
         
-        # Replace placeholders with actual values
-        processing_html = processing_html.replace('{{source}}', source)
-        processing_html = processing_html.replace('{{destination}}', destination)
-        processing_html = processing_html.replace('{{vmname}}', vmname)
+        html = html.replace('{{source}}', source)
+        html = html.replace('{{destination}}', destination)
+        html = html.replace('{{vmname}}', vmname)
         
-        self.window.load_html(processing_html)
+        window.load_html(html)
 
-# Load form HTML from file
+# Read the form HTML
 with open('C:/projects/nomadsky/code/nomadsky-engine/UI/frontend.html', 'r') as f:
     form_html = f.read()
 
-# Create API instance
-api = Api()
-
-# Create window with API
-window = webview.create_window('VM Migration Tool', html=form_html, js_api=api, width=500, height=600)
-
-# Set window reference in API
-api.window = window
-
-# Start webview
+# Create the window
+api = API()
+window = webview.create_window('VM Migration Tool', html=form_html, js_api=api)
 webview.start()
