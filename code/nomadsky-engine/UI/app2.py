@@ -31,7 +31,10 @@ class Api:
 with open('C:/projects/nomadsky/code/nomadsky-engine/UI/frontend.html', 'r') as f:
     form_html = f.read()
 
-# Create window
-window = webview.create_window('VM Migration Tool', html=form_html, width=1300, height=800)
-api = Api(window)
-webview.start(api, window)
+# Create API and window
+api = Api(None)
+window = webview.create_window('VM Migration Tool', html=form_html, width=500, height=600, js_api=api)
+api.window = window
+webview.start(debug=True)
+
+
