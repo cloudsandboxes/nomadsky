@@ -130,45 +130,41 @@ html = '''
 <body>
 <h1>Cloud VM Orchestrator</h1>
 <div class="form-container">
-    <form id="myForm">
-        <label for="source">Source Platform</label>
-        <select id="source" name="source">
-            <option value="azure">Azure</option>
-            <option value="aws">AWS</option>
-            <option value="gcp">GCP</option>
-        </select>
-        <label for="destination">Destination Platform</label>
-        <select id="destination" name="destination">
-            <option value="aws">AWS</option>
-            <option value="azure">Azure</option>
-            <option value="gcp">GCP</option>
-        </select>
-        <label for="vmname">VM Name</label>
-        <input type="text" id="vmname" name="vmname" placeholder="Enter VM Name" value="Production-server-1">
-        <button type="submit">Migrate VM</button>
-        
-    </form>
+<form id="myForm" onsubmit="event.preventDefault(); migrate();">
+    <label for="source">Source Platform</label>
+    <select id="source" name="source">
+        <option value="azure">Azure</option>
+        <option value="aws">AWS</option>
+        <option value="gcp">GCP</option>
+    </select>
+    <label for="destination">Destination Platform</label>
+    <select id="destination" name="destination">
+        <option value="aws">AWS</option>
+        <option value="azure">Azure</option>
+        <option value="gcp">GCP</option>
+    </select>
+    <label for="vmname">VM Name</label>
+    <input type="text" id="vmname" name="vmname" placeholder="Enter VM Name" value="Production-server-1">
+    <button type="submit">Migrate VM</button>
+</form>
+<div id="result"></div>
     <script>
-        const form = document.getElementById('myForm');
-        form.addEventListener('submit', function(event) {
-            event.preventDefault(); // prevent default form submission
-            
-            // Get form values
+        async function migrate() {
             const source = document.getElementById('source').value;
             const destination = document.getElementById('destination').value;
             const vmname = document.getElementById('vmname').value;
             
-            // Create URL with query parameters
-            const params = new URLSearchParams({
-                source: source,
-                destination: destination,
-                vmname: vmname
-            });
+            document.getElementById('result').textContent = 'Running migration...';
             
-            // Redirect with form data
-            window.location.href = '2)%20processing-page.html?' + params.toString();
-        });
+            const result = await pywebview.api.migrate_vm(source, destination, vmname);
+            
+            if (result.done) {
+                document.getElementById('result').textContent = 'Finished! ' + result.output;
+            }
+        }
     </script>
+
+
 </div>
 </body>
 </html>
