@@ -7,7 +7,7 @@ class Api:
     
     def show_processing_page(self, source, destination, vmname):
         # Load HTML from file
-        with open('C:/projects/nomadsky/code/nomadsky-engine/UI/2) processing-page.html', 'r') as f:
+        with open('C:/projects/nomadsky/code/nomadsky-engine/UI/2)processing-page.html', 'r') as f:
             processing_html = f.read()
         
         # Replace placeholders with actual values
