@@ -1,3 +1,6 @@
+#pip install pywebview
+# runs interface in python
+
 import webview
 import subprocess
 
