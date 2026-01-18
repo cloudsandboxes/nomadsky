@@ -1,4 +1,5 @@
 #pip install pywebview
+#py -m pip install pywebview
 # runs interface in python
 
 import webview
