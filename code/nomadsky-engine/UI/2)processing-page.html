@@ -316,6 +316,14 @@
 </div>
 
 <script>
+window.addEventListener('pywebviewready', async function() {
+    const values = await pywebview.api.get_values();
+    document.getElementById('source-platform').textContent = values.source;
+    document.getElementById('dest-platform').textContent = values.destination;
+    document.getElementById('vm-name').textContent = values.vmname;
+});
+
+    
 // Demo script to simulate migration process
 function updateStep(stepId, status, customMessage = null, extraData = null) {
     const step = document.getElementById(stepId);
