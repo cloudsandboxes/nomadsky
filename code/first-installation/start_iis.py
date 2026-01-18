@@ -9,8 +9,6 @@ python start_iis.py
 second prompt: make def for making IIS path the git instead of enetpub 
 """
 
-import os
-import shutil
 import subprocess
 import sys
 import ctypes
@@ -171,51 +169,43 @@ def main():
     print("Script completed!")
     print("="*50)
 
-    update_iis_junction()
+    setup_iis_site()
 
-
-def update_iis_junction(
-    iis_path=r"C:\inetpub\wwwroot",
-    repo_path=r"C:\Projects\nomadsky\code\nomadsky-engine\UI"
-):
+def setup_iis_site(site_name="testnomadsky",
+                   physical_path=r"C:\Projects\nomadsky\code\nomadsky-engine\UI",
+                   binding="*:80:"):
     """
-    Replace an IIS wwwroot folder with a directory junction pointing to a Git repo.
-    Must be run as Administrator on Windows.
+    Create or update an IIS site pointing to a real folder.
+    Requires IIS installed and admin privileges.
+    
+    :param site_name: Name of the IIS site
+    :param physical_path: Folder to serve
+    :param binding: IIS binding (default all IPs, port 80, no hostname)
     """
-
-    if not os.path.exists(repo_path):
-        raise FileNotFoundError(f"Repo path does not exist: {repo_path}")
-
-    # Remove existing IIS folder / junction
-    if os.path.exists(iis_path):
-        if os.path.islink(iis_path):
-            os.unlink(iis_path)
-        else:
-            shutil.rmtree(iis_path)
-
-    # Create junction using mklink
-    cmd = [
-        "cmd",
-        "/c",
-        "mklink",
-        "/J",
-        iis_path,
-        repo_path
-    ]
-
-    result = subprocess.run(
-        cmd,
-        capture_output=True,
-        text=True,
-        shell=False
-    )
-
-    if result.returncode != 0:
-        raise RuntimeError(
-            f"Failed to create junction:\n{result.stderr}"
-        )
-
-    return f"Junction created: {iis_path} -> {repo_path}"
+    
+    # Check if site exists
+    cmd_check = ["appcmd", "list", "site", site_name]
+    result = subprocess.run(cmd_check, capture_output=True, text=True, shell=True)
+    
+    if "ERROR" in result.stdout or result.returncode != 0:
+        # Site does not exist → create it
+        cmd_create = [
+            "appcmd", "add", "site",
+            f"/name:{site_name}",
+            f"/physicalPath:{physical_path}",
+            f"/bindings:{binding}"
+        ]
+        subprocess.run(cmd_create, check=True, shell=True)
+        print(f"IIS site '{site_name}' created, pointing to '{physical_path}'")
+    else:
+        # Site exists → update physical path
+        cmd_update = [
+            "appcmd", "set", "site",
+            site_name,
+            f"/[path='/'].physicalPath:{physical_path}"
+        ]
+        subprocess.run(cmd_update, check=True, shell=True)
+        print(f"IIS site '{site_name}' updated to '{physical_path}'")
 
 if __name__ == "__main__":
     try:
