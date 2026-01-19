@@ -387,14 +387,16 @@ async function runScript(stepId, scriptName, successMessage, parameters = null) 
             body: body 
         });
         const result = await response.json();
-        
+
         if (result.success) {
-            updateStep(stepId, 'completed',  result.output.message);
-            return result;
+            const data = JSON.parse(result.output);
+            updateStep(stepId, 'completed', data.message);
+            console.log('Details:', data.vm_details);
+            return data
         } else {
             updateStep(stepId, 'error', 'Script failed', {
                 type: 'error',
-                message: result.error
+                message: data.error
             });
             return false;
         }
