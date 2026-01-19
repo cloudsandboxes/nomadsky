@@ -45,7 +45,7 @@ for sub in subscription_client.subscriptions.list():
             vms = compute_client.virtual_machines.list_all()
             for vm in vms:
                 if vm.name == vmname:
-                     print(f"VM '{vmname}' found!")
+                     # print(f"VM '{vmname}' found!")
                      # VM found
                      vm_found = True
              
@@ -59,7 +59,7 @@ for sub in subscription_client.subscriptions.list():
                      subscription_id = subscription_ids
                      power_state  = full_vm.instance_view.statuses    
         except HttpResponseError as e:
-            print(f"Skipping subscription {sub.subscription_id}: {e.message}")
+            # print(f"Skipping subscription {sub.subscription_id}: {e.message}")
             continue
 
 if not vm_found:
