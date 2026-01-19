@@ -21,12 +21,13 @@ def run_script():
     source = data.get('source')
     destination = data.get('destination')
     vmname = data.get('vmname')
+    parameters = data.get('parameters')
     
     # Path to your scripts
     script_path = f'C:/projects/nomadsky/code/nomadsky-engine/scripts/{script_name}'  
     try:
         result = subprocess.run(
-            ['python', script_path, source, destination, vmname],
+            ['python', script_path, source, destination, vmname, parameters],
             capture_output=True,
             text=True,
             check=True
@@ -44,7 +45,7 @@ def run_script():
 
 def run_flask():
     """Run Flask in background thread"""
-    app.run(port=5000, debug=True, use_reloader=False)
+    app.run(port=5000, debug=False, use_reloader=False)
 
 def show_processing_page():
     with open('C:/projects/nomadsky/code/nomadsky-engine/UI/2)processing-page.html', 'r') as f:
