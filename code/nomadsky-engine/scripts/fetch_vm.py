@@ -17,5 +17,9 @@ vmname = sys.argv[3]
 #     # AWS boto3 code to find VM
 # etc.
 
+# if vm_not_found:
+#    raise Exception(f"VM '{vmname}' not found in {source}")
+
+
 # Output success message (Flask will capture this)
 print(f"VM '{vmname}' found successfully in {source}!")
