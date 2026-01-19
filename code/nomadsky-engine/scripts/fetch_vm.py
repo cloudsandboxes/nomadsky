@@ -62,7 +62,7 @@ for sub in subscription_client.subscriptions.list():
             continue
 
 if not vm_found:
-    print(f"VM '{vmname}' not found in {source}!)
+    print(f"VM '{vmname}' not found in {source}!")
 else:
     # Output success message (Flask will capture this)
     print(f"VM '{vmname}' found successfully in {source}! with resource_id = {resource_id}")
