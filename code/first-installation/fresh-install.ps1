@@ -264,7 +264,7 @@ Write-Host "`n[3/3] Cloning GitHub repository..." -ForegroundColor Cyan
 
 # Extract repository name from URL
 Write-Host "`nParsing repository URL..." -ForegroundColor Cyan
-$repoName = ($RepoUrl -split '/')[-1] -replace '\.git$', ''
+$repoName = ($GithubRepoUrl -split '/')[-1] -replace '\.git$', ''
 Write-Host "Repository name: $repoName" -ForegroundColor Gray
 
 # Create clone directory if it doesn't exist
