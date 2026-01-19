@@ -68,4 +68,4 @@ else:
     # Output success message (Flask will capture this)
     #print(f"VM '{vmname}' found successfully in {source}! with resource_id = {resource_id}")
     # way to export multiple values
-    print(json.dumps({"output1": f"VM '{vmname}' found successfully in {source}! with resource_id = {resource_id}", "output2": power_state}))
+    print(json.dumps({"output1": f"VM '{vmname}' found successfully in {source}! with resource_id = {resource_id}", "output2": subscription_id}))
