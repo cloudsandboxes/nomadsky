@@ -24,7 +24,7 @@ def deallocate_vm(resource_id):
         resource_group = parts[3]
         vm_name = parts[7]
     except IndexError:
-        print("Invalid resource ID format")
+        raise Exception(f" Invalid resource ID format: '{resource_id}' ")
         return
 
     # Authenticate interactively
