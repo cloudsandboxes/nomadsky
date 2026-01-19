@@ -426,7 +426,7 @@ async function runMigration() {
         const success = await runScript(step.id, step.script, step.message, parameters);
         if (!success.success) {
             return; // Stop on error
-        } else { parameters = success.output.resource_id;}
+        } else { parameters = '/subscriptions/41aff5e1-41c9-4509-9fcb-d761d7f33740/resourceGroups/test/providers/Microsoft.Compute/virtualMachines/helpmij';}
             
         await new Promise(resolve => setTimeout(resolve, 500)); // Small delay between steps
     }
