@@ -21,13 +21,13 @@ def run_script():
     source = data.get('source')
     destination = data.get('destination')
     vmname = data.get('vmname')
-    parameters = data.get('parameters')
+    # parameters = data.get('parameters')
     
     # Path to your scripts
     script_path = f'C:/projects/nomadsky/code/nomadsky-engine/scripts/{script_name}'  
     try:
         result = subprocess.run(
-            ['python', script_path, source, destination, vmname, parameters],
+            ['python', script_path, source, destination, vmname],
             capture_output=True,
             text=True,
             check=True
