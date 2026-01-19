@@ -51,7 +51,7 @@ for sub in subscription_client.subscriptions.list():
              
                      # VM basic info
                      resource_group  = vm.id.split("/")[4]
-                     full_vm = compute_client.virtual_machines.get(resource_group, vm_name, expand="instanceView")
+                     full_vm = compute_client.virtual_machines.get(resource_group, vmname, expand="instanceView")
                      vm_size = vm.hardware_profile.vm_size
                      os_type = full_vm.storage_profile.os_disk.os_type
                      resource_id = vm.id
