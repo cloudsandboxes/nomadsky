@@ -51,13 +51,13 @@ for sub in subscription_client.subscriptions.list():
              
              # VM basic info
              vm_name = vm.name
-             resource_group  = resource_group_name
+             resource_group  = vm.id.split("/")[4]
              full_vm = compute_client.virtual_machines.get(resource_group, vm_name, expand="instanceView")
              vm_size = vm.hardware_profile.vm_size
              os_type = full_vm.storage_profile.os_disk.os_type
              resource_id = vm.id
              subscription_id = subscription_ids
-             resource_group  = resource_group_name
+             power_state  = full_vm.instance_view.statuses
 
 
 
