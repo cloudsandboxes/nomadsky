@@ -28,7 +28,8 @@ def deallocate_vm(resource_id):
         return
 
     # Authenticate interactively
-    credential = InteractiveBrowserCredential()
+    tenant_id = "78ba35ee-470e-4a16-ba92-ad53510ad7f6"
+    credential = InteractiveBrowserCredential(tenant_id=tenant_id)
 
     # Create compute client
     compute_client = ComputeManagementClient(credential, subscription_id)
