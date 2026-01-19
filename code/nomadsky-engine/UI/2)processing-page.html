@@ -389,7 +389,7 @@ async function runScript(stepId, scriptName, successMessage, parameters = null) 
         const result = await response.json();
         
         if (result.success) {
-            updateStep(stepId, 'completed',  result.output);
+            updateStep(stepId, 'completed',  result.output.message);
             return result;
         } else {
             updateStep(stepId, 'error', 'Script failed', {
@@ -426,7 +426,7 @@ async function runMigration() {
         const success = await runScript(step.id, step.script, step.message, parameters);
         if (!success.success) {
             return; // Stop on error
-        } else { parameters = success.output;}
+        } else { parameters = success.output.resource_id;}
             
         await new Promise(resolve => setTimeout(resolve, 500)); // Small delay between steps
     }
