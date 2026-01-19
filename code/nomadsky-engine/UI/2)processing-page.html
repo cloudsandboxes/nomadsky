@@ -422,7 +422,9 @@ async function runMigration() {
         { id: 'step7', script: 'start_vm.py', message: 'VM is now running!' }
     ];
 
-    let sharedData = {}; // Store data from previous steps
+    let sharedData = {
+    whatastart: 'empthy'
+    }; // Store data from previous steps
     
     for (const step of steps) {
         const success = await runScript(step.id, step.script, step.message, sharedData);
