@@ -410,8 +410,7 @@ async function runScript(stepId, scriptName, successMessage, parameters = null) 
     }
 }
 // successMessage ||
-//store the output of these scripts
-const results = []; // store all outputs
+
     
 // Run all migration steps
 async function runMigration() {
@@ -431,7 +430,7 @@ async function runMigration() {
         
         if (!success) {
             return; // Stop on error
-        }// else { const parameters = result.output}
+        } else { const parameters = result.output}
             
         await new Promise(resolve => setTimeout(resolve, 500)); // Small delay between steps
     }
