@@ -395,7 +395,7 @@ async function runScript(stepId, scriptName, successMessage, sharedData) {
         } else {
             updateStep(stepId, 'error', 'Script failed', {
                 type: 'error',
-                message: data.error
+                message: result.error
             });
             return false;
         }
