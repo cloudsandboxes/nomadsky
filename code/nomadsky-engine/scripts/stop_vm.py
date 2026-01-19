@@ -43,11 +43,10 @@ def deallocate_vm(resource_id):
 if __name__ == "__main__":
     deallocate_vm(vm_resource_id)
     result = {
-      'message': f"VM '{vm_name}' has been deallocated successfully!"!",
-      'resource_id': resource_id,
+      'message': f"VM '{vm_name}' has been deallocated successfully!",
+      'resource_id': resource_id
     }
-
-print(json.dumps(result))
+    print(json.dumps(result))
 
 
 
