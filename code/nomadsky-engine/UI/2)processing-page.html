@@ -316,27 +316,24 @@
 </div>
 
 <script>
-window.addEventListener('pywebviewready', async function() {
-    const values = await pywebview.api.get_values();
-    document.getElementById('source-platform').textContent = values.source;
-    document.getElementById('dest-platform').textContent = values.destination;
-    document.getElementById('vm-name').textContent = values.vmname;
-});
+// Get form values and display them
+const source = '{{source}}';
+const destination = '{{destination}}';
+const vmname = '{{vmname}}';
 
-    
-// Demo script to simulate migration process
+document.getElementById('source-platform').textContent = source;
+document.getElementById('dest-platform').textContent = destination;
+document.getElementById('vm-name').textContent = vmname;
+
+// Update step status
 function updateStep(stepId, status, customMessage = null, extraData = null) {
     const step = document.getElementById(stepId);
     const icon = step.querySelector('.status-icon');
     const description = step.querySelector('.status-description');
     
-    // Remove all status classes
     step.classList.remove('pending', 'running', 'completed', 'error');
-    
-    // Add new status class
     step.classList.add(status);
     
-    // Update icon
     if (status === 'running') {
         icon.innerHTML = '<div class="spinner"></div>';
     } else if (status === 'completed') {
@@ -347,17 +344,13 @@ function updateStep(stepId, status, customMessage = null, extraData = null) {
         icon.innerHTML = '<span class="pending-icon">○</span>';
     }
     
-    // Update description if custom message provided
     if (customMessage) {
         description.textContent = customMessage;
     }
     
-    // Add extra data if provided (for errors or VM lists)
     if (extraData) {
         const existingExtra = step.querySelector('.error-details, .vm-list');
-        if (existingExtra) {
-            existingExtra.remove();
-        }
+        if (existingExtra) existingExtra.remove();
         
         const extraDiv = document.createElement('div');
         extraDiv.className = extraData.type === 'error' ? 'error-details' : 'vm-list';
@@ -375,99 +368,73 @@ function updateStep(stepId, status, customMessage = null, extraData = null) {
     }
 }
 
-// Simulate migration process - REMOVE THIS IN PRODUCTION
-// This is just for demonstration purposes
-function simulateMigration() {
+// Run a single script via Flask
+async function runScript(stepId, scriptName, successMessage) {
+    updateStep(stepId, 'running', 'Processing...');
+    
+    try {
+        const response = await fetch('http://localhost:5000/api/run-script', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                script: scriptName,
+                source: source,
+                destination: destination,
+                vmname: vmname
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            updateStep(stepId, 'completed', successMessage || result.output);
+            return true;
+        } else {
+            updateStep(stepId, 'error', 'Script failed', {
+                type: 'error',
+                message: result.error
+            });
+            return false;
+        }
+    } catch (error) {
+        updateStep(stepId, 'error', 'Connection failed', {
+            type: 'error',
+            message: error.message
+        });
+        return false;
+    }
+}
+
+// Run all migration steps
+async function runMigration() {
     const steps = [
-        { id: 'step1', duration: 2000, message: 'VM found successfully!' },
-        { id: 'step2', duration: 3000, message: 'VM stopped successfully' },
-        { id: 'step3', duration: 5000, message: 'Download completed (45.2 GB)' },
-        { id: 'step4', duration: 4000, message: 'Format conversion completed' },
-        { id: 'step5', duration: 3000, message: 'Network resources created' },
-        { id: 'step6', duration: 6000, message: 'Upload completed successfully' },
-        { id: 'step7', duration: 3000, message: 'VM is now running!' }
+        { id: 'step1', script: 'fetch_vm.py', message: 'VM found successfully!' },
+        { id: 'step2', script: 'stop_vm.py', message: 'VM stopped successfully' },
+        { id: 'step3', script: 'download_vm.py', message: 'Download completed' },
+        { id: 'step4', script: 'transform_vm.py', message: 'Format conversion completed' },
+        { id: 'step5', script: 'create_network.py', message: 'Network resources created' },
+        { id: 'step6', script: 'upload_image.py', message: 'Upload completed successfully' },
+        { id: 'step7', script: 'start_vm.py', message: 'VM is now running!' }
     ];
     
-    let currentStep = 0;
-    
-    function processNextStep() {
-        if (currentStep < steps.length) {
-            const step = steps[currentStep];
-            
-            // Mark as running
-            updateStep(step.id, 'running', 'Processing...');
-            
-            // Complete after duration
-            
-            setTimeout(() => {
-                updateStep(step.id, 'completed', step.message);
-                currentStep++;
-                vmname= "production-server-1"
-            if (vmname !== "production-server-1"){
-                simulateVMNotFoundError(); // VM not found scenario
-                            }
-                // Show success banner after last step
-                if (currentStep === steps.length) {
-                    setTimeout(() => {
-                        document.getElementById('success-banner').classList.add('show');
-                    }, 500);
-                } else {
-                    // Process next step
-                    setTimeout(processNextStep, 500);
-                }
-            }, step.duration);
+    for (const step of steps) {
+        const success = await runScript(step.id, step.script, step.message);
+        
+        if (!success) {
+            return; // Stop on error
         }
+        
+        await new Promise(resolve => setTimeout(resolve, 500)); // Small delay between steps
     }
     
-    // Start the process
-    processNextStep();
+    // Show success banner
+    setTimeout(() => {
+        document.getElementById('success-banner').classList.add('show');
+    }, 500);
 }
 
-// Example: Simulate error on step 1 (VM not found)
-function simulateVMNotFoundError() {
-    updateStep('step1', 'error', 'VM not found in source platform', {
-        type: 'vm-list',
-        vms: ['production-server-02', 'dev-server-01', 'test-vm-03', 'staging-app-01']
-    });
-}
-
-async function runMigrationScript() {
-    const response = await fetch('http://localhost:5000/api/run-script', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            script: 'migrate.py',  // your script name
-            source: '{{source}}',
-            destination: '{{destination}}',
-            vmname: '{{vmname}}'
-        })
-    });
-    
-    const result = await response.json();
-    if (result.success) {
-        console.log('Script output:', result.output);
-    } else {
-        console.error('Script error:', result.error);
-    }
-}
-
-// Call it when page loads
-window.onload = runMigrationScript;
-    
-// Example: Simulate generic error
-function simulateGenericError(stepId) {
-    updateStep(stepId, 'error', 'An error occurred during this step', {
-        type: 'error',
-        message: 'Connection timeout: Unable to reach destination platform API'
-    });
-}
-
-// Auto-start simulation on page load (REMOVE THIS IN PRODUCTION)
-window.addEventListener('load', () => {
-    // Choose one:
-    simulateMigration(); // Normal flow
-    // simulateVMNotFoundError(); // VM not found scenario
-});
+// Start migration when page loads
+window.addEventListener('load', runMigration);
 </script>
 </body>
 </html>
