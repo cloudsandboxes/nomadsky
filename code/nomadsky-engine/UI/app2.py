@@ -4,7 +4,6 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import subprocess
 import threading
-import json
 
 # Flask setup
 app = Flask(__name__)
@@ -32,11 +31,10 @@ def run_script():
             text=True,
             check=True
         )
-        outputs = json.loads(completed.stdout)
+        
         return jsonify({
             'success': True,
-            'output1': outputs["output1"],
-            'output2': outputs["output2"]
+            'output': result.stdout
         })
     except subprocess.CalledProcessError as e:
         return jsonify({
