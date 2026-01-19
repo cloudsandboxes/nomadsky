@@ -432,8 +432,8 @@ async function runMigration() {
             return; // Stop on error
         }
         // Parse output and add to shared data
-        const data = JSON.parse(success.output);
-        sharedData = { ...sharedData, ...data }; // Merge new data
+        const dataout = JSON.parse(success.output);
+        sharedData = { ...sharedData, ...dataout }; // Merge new data
         
         await new Promise(resolve => setTimeout(resolve, 500)); // Small delay between steps
     }
