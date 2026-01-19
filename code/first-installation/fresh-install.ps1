@@ -327,9 +327,10 @@ try {
     Set-Location $CloneDirectory
     
     # Execute git clone
-    & $gitExe clone $GithubRepoUrl 2>&1 | ForEach-Object {
-        Write-Host $_ -ForegroundColor Gray
-    }
+    git clone $GithubRepoUrl $repoPath
+    #& $gitExe clone $GithubRepoUrl 2>&1 | ForEach-Object {
+    #    Write-Host $_ -ForegroundColor Gray
+    #}
     
     if ($LASTEXITCODE -eq 0) {
         Write-Host "`n=== Clone Successful ===" -ForegroundColor Green
