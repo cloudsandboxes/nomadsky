@@ -48,14 +48,16 @@ for sub in subscription_client.subscriptions.list():
              print(f"VM '{vmname}' found!")
              # VM found
              vm_found = True
+             
              # VM basic info
              vm_name = vm.name
+             resource_group  = resource_group_name
+             full_vm = compute_client.virtual_machines.get(resource_group, vm_name, expand="instanceView")
              vm_size = vm.hardware_profile.vm_size
-             os_type = vm.storage_profile.os_disk.os_type.value
+             os_type = full_vm.storage_profile.os_disk.os_type
              resource_id = vm.id
              subscription_id = subscription_ids
              resource_group  = resource_group_name
-
 
 
 
