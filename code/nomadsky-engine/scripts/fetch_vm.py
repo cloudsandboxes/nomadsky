@@ -43,16 +43,16 @@ for sub in subscription_client.subscriptions.list():
     vms = compute_client.virtual_machines.list_all()
     for vm in vms:
          if vm.name == vmname:
-         print(f"VM '{vmname}' found!")
-         # VM found
-         vm_found = True
-         # VM basic info
-         vm_name = vm.name
-         vm_size = vm.hardware_profile.vm_size
-         os_type = vm.storage_profile.os_disk.os_type.value
-         resource_id = vm.id
-         subscription_id = subscription_ids
-         resource_group  = resource_group_name
+             print(f"VM '{vmname}' found!")
+             # VM found
+             vm_found = True
+             # VM basic info
+             vm_name = vm.name
+             vm_size = vm.hardware_profile.vm_size
+             os_type = vm.storage_profile.os_disk.os_type.value
+             resource_id = vm.id
+             subscription_id = subscription_ids
+             resource_group  = resource_group_name
 
 
 
