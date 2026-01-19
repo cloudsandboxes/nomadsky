@@ -23,7 +23,6 @@ vmname = sys.argv[3]
 from azure.identity import InteractiveBrowserCredential
 from azure.mgmt.resource import ResourceManagementClient
 from azure.mgmt.compute import ComputeManagementClient
-from azure.mgmt.network import NetworkManagementClient
 from azure.mgmt.resource import SubscriptionClient
 
 
@@ -42,8 +41,6 @@ for sub in subscription_client.subscriptions.list():
     subscription_ids = sub.subscription_id
     compute_client = ComputeManagementClient(credential, subscription_ids)
     resource_client = ResourceManagementClient(credential, subscription_ids)
-    network_client = NetworkManagementClient(credential, subscription_ids)
-
     
     vms = compute_client.virtual_machines.list_all()
     for vm in vms:
