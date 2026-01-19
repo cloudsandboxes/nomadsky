@@ -417,7 +417,7 @@ const results = []; // store all outputs
 async function runMigration() {
     const steps = [
         { id: 'step1', script: 'fetch_vm.py', message: 'VM found successfully!', parameters: 'empty' },  
-        { id: 'step2', script: 'stop_vm.py', message: 'VM stopped successfully', parameters:'/subscriptions/41aff5e1-41c9-4509-9fcb-d761d7f33740/resourceGroups/test/providers/Microsoft.Compute/virtualMachines/pythonapp' },
+        { id: 'step2', script: 'stop_vm.py', message: 'VM stopped successfully', parameters:'/subscriptions/41aff5e1-41c9-4509-9fcb-d761d7f33740/resourceGroups/test/providers/Microsoft.Compute/virtualMachines/helpmij' },
         { id: 'step3', script: 'download_vm.py', message: 'Download completed' },
         { id: 'step4', script: 'transform_vm.py', message: 'Format conversion completed' },
         { id: 'step5', script: 'create_network.py', message: 'Network resources created' },
@@ -431,7 +431,6 @@ async function runMigration() {
         if (!success) {
             return; // Stop on error
         }
-        
         await new Promise(resolve => setTimeout(resolve, 500)); // Small delay between steps
     }
     
