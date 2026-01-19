@@ -73,7 +73,7 @@ else:
       'message': f"VM '{vmname}' found successfully in {source}!",
       'vm_size': vm_size,
       'resource_id': resource_id,
-      'power_state': powerstate
+      'power_state': power_state
     }
 
 print(json.dumps(result))
