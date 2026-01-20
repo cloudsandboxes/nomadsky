@@ -7,12 +7,12 @@ import subprocess
 source = sys.argv[1]
 destination = sys.argv[2]
 vmname = sys.argv[3].lower()
-shareddata = sys.argv[4]
+shareddata_json = sys.argv[4]
 
 if source == 'azure':
       # Azure SDK code to find VM
       result = subprocess.run(
-        ['python', 'C:/Projects/nomadsky/code/microsoft-connections/fetch-vm.py', source, destination, vmname, shareddata],
+        ['python', 'C:/Projects/nomadsky/code/microsoft-connections/fetch-vm.py', source, destination, vmname, shareddata_json],
         capture_output=True,
         text=True,
         check=True
