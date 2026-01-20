@@ -97,7 +97,7 @@ result = {
 
 print(json.dumps(result))
 
-"""
+
 
     
     #print(f"\nDownloading OS disk to {output_vhd_path}...")
