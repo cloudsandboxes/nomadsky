@@ -55,15 +55,34 @@ print(sas_url)
 # 4) DOWNLOAD THE VHD
 # -------------------------------
 
+from time import sleep
 
-with requests.get(sas_url, stream=True) as r:
-    r.raise_for_status()
-    with open(output_vhd_path, "wb") as f:
-        for chunk in r.iter_content(chunk_size=10_000_000):
-            if chunk:
-                f.write(chunk)
+chunk_size = 50 * 1024 * 1024  # 50 MB per chunk
+max_retries = 5
 
-print("Download complete!")
+# Resume if file exists
+start_byte = os.path.getsize(output_vhd_path) if os.path.exists(output_vhd_path) else 0
+
+while True:
+    headers = {"Range": f"bytes={start_byte}-"}
+    try:
+        with requests.get(sas_url, headers=headers, stream=True, timeout=60) as r:
+            r.raise_for_status()
+            mode = "ab" if start_byte > 0 else "wb"
+            with open(output_vhd_path, mode) as f:
+                for chunk in r.iter_content(chunk_size=chunk_size):
+                    if chunk:
+                        f.write(chunk)
+                        start_byte += len(chunk)
+                        print(f"Downloaded {start_byte / (1024*1024):.1f} MB", end="\r")
+        break  # finished successfully
+    except (requests.ConnectionError, requests.ChunkedEncodingError) as e:
+        print(f"\nConnection error, retrying... ({e})")
+        sleep(5)  # wait a few seconds
+        max_retries -= 1
+        if max_retries <= 0:
+            raise Exception("Max retries exceeded")
+            
 
 result = {
       'message': f"VM '{vmname}' successfully downloaded from {source}!",
