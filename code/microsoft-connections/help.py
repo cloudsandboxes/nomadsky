@@ -3,6 +3,7 @@ import json
 import os
 import time
 import requests
+from datetime import datetime, timezone, timedelta
 #from urllib.parse import urlparse
 
 # Get arguments
@@ -20,7 +21,6 @@ from azure.mgmt.resource import ResourceManagementClient
 from azure.mgmt.compute import ComputeManagementClient
 from azure.mgmt.resource import SubscriptionClient
 from azure.core.exceptions import HttpResponseError
-from datetime import datetime, timedelta
 
 #from azure.mgmt.network import NetworkManagementClient
 # Use interactive browser login
@@ -36,16 +36,18 @@ credential = InteractiveBrowserCredential(tenant_id=tenant_id)
 compute_client = ComputeManagementClient(credential, subscription_id)
 
 # Generate SAS URL
-expiry_time = datetime.utcnow() + timedelta(hours=1)  # valid for 1 hour
+# current UTC time, timezone-aware
+now_utc = datetime.now(timezone.utc)
+# example: 1 hour later
+expiry_time = now_utc + timedelta(hours=1)
+
 sas = compute_client.disks.begin_grant_access(
     resource_group_name=resource_group,
     disk_name=os_disk_id.split('/')[-1],
     grant_access_data={"access": "Read", "duration_in_seconds": 3600}
 ).result()
 sas_url = sas.access_sas
-#print("OS Disk SAS URL:", sas_url)
-
-
+print(sas_url)
 result = {
       'message': f"VM '{vmname}' successfully downloaded from {source}!",
     }
@@ -53,41 +55,7 @@ result = {
 print(json.dumps(result))
 
 """
-
-
-
-# print("\nRequesting disk export access...")
-export_uri = f"https://management.azure.com{os_disk_id}/beginGetAccess?api-version=2023-04-02"
-export_body = {
-      "access": "Read",
-      "durationInSeconds": 3600
-    }
     
-headers = get_headers(credential)
-export_resp = requests.post(export_uri, headers=headers, json=export_body)
-export_resp.raise_for_status()
-    
-    # Get the async operation URL from Location or Azure-AsyncOperation header
-    if "Location" in export_resp.headers:
-        operation_url = export_resp.headers["Location"]
-    elif "Azure-AsyncOperation" in export_resp.headers:
-        operation_url = export_resp.headers["Azure-AsyncOperation"]
-    else:
-        raise Exception("No async operation URL found in response headers")
-    
-    #print(f"Polling for SAS URL generation...")
-    result = poll_async_operation(operation_url, credential, timeout=300)
-    
-    # The SAS URL should be in the result
-    sas_url = result.get("properties", {}).get("output", {}).get("accessSAS")
-    if not sas_url:
-        # Try alternative location
-        sas_url = result.get("accessSAS")
-    
-    if not sas_url:
-        raise Exception(f"Could not find SAS URL in response: {result}")
-    
-    #print("SAS URL obtained successfully.")
     
     # -------------------------------
     # 4) DOWNLOAD THE VHD
