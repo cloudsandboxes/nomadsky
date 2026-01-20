@@ -34,7 +34,6 @@ result = {
 print(json.dumps(result))
 
 
-"""
 # -------------------------------
 # 2) GET OS DISK INFO
 # -------------------------------
@@ -53,6 +52,7 @@ vm = vm_resp.json()
 os_disk_id = vm["properties"]["storageProfile"]["osDisk"]["managedDisk"]["id"]
 disk_name = os_disk_id.split("/")[-1]
 
+"""
 
 # -------------------------------
 # 3) REQUEST DISK EXPORT (ASYNC)
