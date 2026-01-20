@@ -1,9 +1,9 @@
 import sys
 import json
-import os
-import time
-import requests
-from urllib.parse import urlparse
+#import os
+#import time
+#import requests
+#from urllib.parse import urlparse
 
 # Get arguments
 source = sys.argv[1]
@@ -22,10 +22,17 @@ from azure.mgmt.resource import ResourceManagementClient
 from azure.mgmt.compute import ComputeManagementClient
 from azure.mgmt.resource import SubscriptionClient
 from azure.core.exceptions import HttpResponseError
-from azure.mgmt.network import NetworkManagementClient
+#from azure.mgmt.network import NetworkManagementClient
 # Use interactive browser login
 tenant_id = "78ba35ee-470e-4a16-ba92-ad53510ad7f6"
 credential = InteractiveBrowserCredential(tenant_id=tenant_id)
+
+result = {
+      'message': f"VM '{vmname}' successfully downloaded from {source}!",
+    }
+
+print(json.dumps(result))
+
 
 """
 # -------------------------------
@@ -135,7 +142,6 @@ except Exception as e:
     print(f"\n✗ Error: {e}")
     import traceback
     traceback.print_exc()
-"""
 
 sas_url= "happy"
 if not sas_url:
@@ -153,3 +159,4 @@ print(json.dumps(result))
 
 # 'output_vdh': output_vhd_path,
 #      'filesize' : file_size_gb
+"""
