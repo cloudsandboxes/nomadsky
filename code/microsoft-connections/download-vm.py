@@ -149,6 +149,8 @@ else:
       'vm_size': vm_size,
       'resource_id': resource_id,
       'resource_group': resource_group,
+      'output_vdh': output_vhd_path,
+      'filesize' : file_size_gb
     }
 
 print(json.dumps(result))
