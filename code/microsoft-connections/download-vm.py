@@ -30,9 +30,9 @@ file_size_gb = os.path.getsize(output_vhd_path) / (1024**3)
 if file_size_gb > 1:
    result = {
       'message': f"VM '{vmname}' successfully downloaded from {source}!",
-    }
-    print(json.dumps(result))
-    sys.exit(0)
+   }
+   print(json.dumps(result))
+    
 
 # Use interactive browser login
 tenant_id = "78ba35ee-470e-4a16-ba92-ad53510ad7f6"
