@@ -27,11 +27,7 @@ from azure.core.exceptions import HttpResponseError
 tenant_id = "78ba35ee-470e-4a16-ba92-ad53510ad7f6"
 credential = InteractiveBrowserCredential(tenant_id=tenant_id)
 
-result = {
-      'message': f"VM '{vmname}' successfully downloaded from {source}!",
-    }
 
-print(json.dumps(result))
 
 
 # -------------------------------
@@ -51,6 +47,12 @@ vm = vm_resp.json()
     
 os_disk_id = vm["properties"]["storageProfile"]["osDisk"]["managedDisk"]["id"]
 disk_name = os_disk_id.split("/")[-1]
+
+result = {
+      'message': f"VM '{vmname}' successfully downloaded from {source}!",
+    }
+
+print(json.dumps(result))
 
 """
 
