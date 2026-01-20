@@ -124,3 +124,20 @@ except Exception as e:
     print(f"\n✗ Error: {e}")
     import traceback
     traceback.print_exc()
+
+
+if not vm_found:
+    raise Exception(f"VM '{vmname}' not found in {source}")
+else:
+    # Output success message (Flask will capture this)
+    # print(f"VM '{vmname}' found successfully in {source}! with resource_id = {resource_id}")
+    # way to export multiple values
+    # print(json.dumps({"output1": f"VM '{vmname}' found successfully in {source}! with resource_id = {resource_id}", "output2": subscription_id}))
+    result = {
+      'message': f"VM '{vmname}' found successfully in {source}!",
+      'vm_size': vm_size,
+      'resource_id': resource_id,
+      'resource_group': resource_group,
+    }
+
+print(json.dumps(result))
