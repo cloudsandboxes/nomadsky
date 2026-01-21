@@ -10,18 +10,26 @@ source = sys.argv[1]
 destination = sys.argv[2]
 vmname = sys.argv[3].lower()
 shareddata_json = sys.argv[4]
+exportfiletype = "vhd"
 
-if source == 'azure':
+if destination == 'azure':
       # Azure SDK code to find VM
       sys.path.append(r"C:/projects/nomadsky/code/microsoft-connections")
-      import config.importvhdfile
+      import config
+      filetype = config.importdiskfile
+      if (filetype == exportfiletype):
+            result = {
+             'message': f"the diskfile type is already '{config.filetype}' so no need to transform type!",
+             }
+            print(json.dumps(result))
+      else:
+            result = {
+             'message': f"the diskfile type is different '{config.filetype}' to '{exportfiletype}' so need to transform!",
+             }
+            print(json.dumps(result))
       
       
-      result = {
-            'message': f"VM '{config.tenantid}' has been deallocated successfully!",
-       }
-      print(json.dumps(result))
-elif source == 'aws':
+elif destination == 'aws':
    a='empty'
    #     # AWS boto3 code to find VM
    # etc.
@@ -31,8 +39,8 @@ elif source == 'aws':
 #result = my_function(5)
 
 
-try:
-    subscription_id = vm_resource_id
-except IndexError:
-        raise Exception(f" Invalid resource ID format: '{vm_resource_id}' ")
+#try:
+#    subscription_id = vm_resource_id
+#except IndexError:
+#        raise Exception(f" Invalid resource ID format: '{vm_resource_id}' ")
     
