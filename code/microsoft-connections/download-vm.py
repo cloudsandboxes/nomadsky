@@ -20,8 +20,7 @@ subscription_id = shared_data.get('subscription_id', '')
 resource_group = shared_data.get('resource_group', '')
 os_disk_id = shared_data.get('os_disk_id', '')
 output_vhd_path = r"C:\Temp\osdisk.vhd"
-
-
+exportdisktype = config.exportdisktype
 
 from azure.identity import InteractiveBrowserCredential
 from azure.mgmt.resource import ResourceManagementClient
@@ -89,6 +88,7 @@ if os.path.exists(output_vhd_path):
    file_size_gb = os.path.getsize(output_vhd_path) / (1024**3) 
    result = {
       'message': f"VM '{vmname}' already downloadeded from {source}!",
+      'exportdisktype' : exportdisktype 
    }
    print(json.dumps(result))
 else: 
@@ -96,6 +96,7 @@ else:
    file_size_gb = os.path.getsize(output_vhd_path) / (1024**3) 
    result = {
       'message': f"VM '{vmname}' successfully downloaded from {source}!",
+         'exportdisktype' : exportdisktype
      }
    print(json.dumps(result))
 
