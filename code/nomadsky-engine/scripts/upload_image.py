@@ -1,7 +1,4 @@
 import sys
-from azure.identity import InteractiveBrowserCredential
-from azure.mgmt.compute import ComputeManagementClient
-import sys
 import json
 
 # Get arguments
@@ -11,16 +8,14 @@ vmname = sys.argv[3].lower()
 shareddata_json = sys.argv[4]
 shared_data = json.loads(shareddata_json)
 
-exportdisktype = shared_data.get('exportdisktype', '')
-
 if destination == 'azure':
       # Azure SDK code to find VM
       sys.path.append(r"C:/projects/nomadsky/code/Microsoft")
       import config
       from upload_disk import upload_disk
-      importdisktype = config.importdisktype
-    
+          
       try:
+            upload_disk(shared_data)
             result = {
              'message': f"the diskfile type is already '{config.importdisktype}' so no need to transform type!",
              }
@@ -36,6 +31,7 @@ elif destination == 'aws':
 
 #from helpers import my_function
 #result = my_function(5)
+#exportdisktype = shared_data.get('exportdisktype', '')
 
 
 
