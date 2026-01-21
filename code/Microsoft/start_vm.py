@@ -1,11 +1,13 @@
-def start_vm ():
+def start_vm (shared_data):
   import sys
+  sys.path.append(r"C:/projects/nomadsky/code/Microsoft")
   from azure.identity import DefaultAzureCredential
   from azure.mgmt.compute import ComputeManagementClient
   from azure.mgmt.network import NetworkManagementClient
   from azure.mgmt.resource import ResourceManagementClient
   import tkinter as tk
   from tkinter import simpledialog
+  import config
 
   root = tk.Tk()
   root.withdraw()  # hide main window
@@ -15,13 +17,14 @@ def start_vm ():
 
   #print(f"Username: {username}, Password: {password}")
 
-  subscription_id = "YOUR_SUBSCRIPTION_ID"
-  resource_group = "YOUR_RESOURCE_GROUP"
+  subscription_id = config.subscritpion_id
+  resource_group = config.resource_group
   vm_name = "MyVM"
-  location = "eastus"
+  location = config.location
+  
   vhd_url = "https://<storage_account>.blob.core.windows.net/<container>/<vhd_file>.vhd"
 
-  credential = DefaultAzureCredential()
+  #credential = DefaultAzureCredential()
   compute_client = ComputeManagementClient(credential, subscription_id)
   network_client = NetworkManagementClient(credential, subscription_id)
   resource_client = ResourceManagementClient(credential, subscription_id)
@@ -36,10 +39,11 @@ def start_vm ():
       },
       "storage_profile": {
           "os_disk": {
-              "os_type": "Linux",  # or "Windows"
+              "os_type": "Windows",  # or "Linux"
               "name": f"{vm_name}_OSDisk",
               "caching": "ReadWrite",
               "create_option": "FromImage",
+              "managed_disk": {"storage_account_type": "Standard_LRS"  # options: Standard_LRS, StandardSSD_LRS, Premium_LRS},
               "vhd": {
                   "uri": vhd_url
               }
