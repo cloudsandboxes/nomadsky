@@ -95,8 +95,8 @@ async function runMigration() {
         { id: 'step2', script: 'stop_vm.py', message: 'VM stopped successfully' },
         { id: 'step3', script: 'download_vm.py', message: 'Download completed' },
         { id: 'step4', script: 'transform_vm.py', message: 'Format conversion completed'},
-        { id: 'step5', script: 'create_network.py', message: 'Network resources created' },
-        { id: 'step6', script: 'upload_image.py', message: 'Upload completed successfully' },
+        { id: 'step5', script: 'upload_image.py', message: 'Upload completed successfully' },
+        { id: 'step6', script: 'create_network.py', message: 'Network resources created' },
         { id: 'step7', script: 'start_vm.py', message: 'VM is now running!' }
     ];
 
