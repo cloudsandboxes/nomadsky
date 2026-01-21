@@ -111,8 +111,8 @@ async function runMigration() {
         }
         // Parse output and add to shared data
         const dataout = JSON.parse(success.output); 
-        sharedData_nomessage = sharedData.pop("message", None); 
-        sharedData = { ...sharedData_nomessage, ...dataout }; // Merge new data
+        delete sharedData.message; 
+        sharedData = { ...sharedData, ...dataout }; // Merge new data
         
         await new Promise(resolve => setTimeout(resolve, 500)); // Small delay between steps
     }
