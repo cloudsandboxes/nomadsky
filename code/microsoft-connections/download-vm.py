@@ -1,10 +1,13 @@
 import sys
+sys.path.append(r"C:/projects/nomadsky/code/microsoft-connections")
 import json
 import os
 import time
 from time import sleep
 import requests
 from datetime import datetime, timedelta, timezone
+import config
+      
 
 # Get arguments
 source = sys.argv[1]
@@ -28,7 +31,7 @@ from azure.core.exceptions import HttpResponseError
   
 
 # Use interactive browser login
-tenant_id = "78ba35ee-470e-4a16-ba92-ad53510ad7f6"
+tenant_id = config.tenantid
 credential = InteractiveBrowserCredential(tenant_id=tenant_id)
 
 # -------------------------------
