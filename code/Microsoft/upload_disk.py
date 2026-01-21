@@ -1,18 +1,24 @@
-def upload_disk():
+def upload_disk(shared_data):
     
-    from azure.identity import DefaultAzureCredential
+    import sys
+    sys.path.append(r"C:/projects/nomadsky/code/Microsoft")
     from azure.mgmt.storage import StorageManagementClient
     from azure.storage.blob import BlobServiceClient, BlobClient
     import os
+    from azure.identity import InteractiveBrowserCredential
+    from azure.mgmt.compute import ComputeManagementClient
+    import json
+    import config
+
 
     # Variables
-    subscription_id = "your-subscription-id"
-    resource_group = "your-resource-group"
-    storage_account_name = "yourstorageaccount"
-    location = "westeurope"
-    container_name = "vhds"
-    vhd_path = "c:/temp/osdisk.vhd"
-    blob_name = "osdisk.vhd"
+    subscription_id = config.subscription_id
+    resource_group = config.resource_group
+    storage_account_name = config.storage_account_name 
+    location = config.location 
+    container_name = config.container_name
+    vhd_path = shared_data.get('vhd_path', '')
+    blob_name = config.blob_name
 
     credential = DefaultAzureCredential()
 
