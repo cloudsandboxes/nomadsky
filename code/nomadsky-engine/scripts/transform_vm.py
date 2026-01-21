@@ -1,5 +1,6 @@
 import sys
 import subprocess
+import json
 
 # Simulate fetching VM
 # TODO: Add actual API calls to source platform here
