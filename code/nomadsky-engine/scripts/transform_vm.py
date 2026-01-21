@@ -14,7 +14,8 @@ shareddata_json = sys.argv[4]
 if source == 'azure':
       # Azure SDK code to find VM
       sys.path.append(r"C:/projects/nomadsky/code/microsoft-connections")
-      import config
+      import config.importvhdfile
+      
       
       result = {
             'message': f"VM '{config.tenantid}' has been deallocated successfully!",
@@ -28,3 +29,10 @@ elif source == 'aws':
 
 #from helpers import my_function
 #result = my_function(5)
+
+
+try:
+    subscription_id = vm_resource_id
+except IndexError:
+        raise Exception(f" Invalid resource ID format: '{vm_resource_id}' ")
+    
