@@ -20,7 +20,8 @@ def upload_disk(shared_data):
     vhd_path = shared_data.get('output_vhd_path', '')
     blob_name = config.blob_name
 
-    credential = DefaultAzureCredential()
+    tenant_id = config.destinationtenantid
+    credential = InteractiveBrowserCredential(tenant_id=tenant_id)
 
     # Create storage account
     storage_client = StorageManagementClient(credential, subscription_id)
@@ -50,4 +51,4 @@ def upload_disk(shared_data):
     with open(vhd_path, "rb") as data:
         blob_client.upload_blob(data, blob_type="PageBlob", overwrite=False)
 
-    print(f"VHD uploaded: {blob_client.url}")
+    
