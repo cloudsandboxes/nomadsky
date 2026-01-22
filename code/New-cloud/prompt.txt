@@ -24,7 +24,32 @@ and list all pip statements as py -m pip
 for create_networking
 ----------------
 for create_vm
+---------------------
 for downloading_vm
+---------------------
+create a def in python without input parameters. With interactive login to Amazon. Based on given resourcid and other info. download the osdisk from the deallocated vm to a C:/.
+Then return details about storage location, similar to this:
+ result = {
+              'message': f"VM '{vmname}' found successfully in {source}!",
+              'vm_size': vm_size,
+              'resource_id': resource_id} 
+and return result
+when not found raise an error.
+put everything in one def.
+
+And use all input parameters as:
+import sys 
+sys.path.append(r"C:/projects/nomadsky/code/Amazon")
+import config
+variable=config.variable
+
+and list all pip statements as py -m pip 
+
+include an if statement to check if the vm has already been downloaded
+if os.path.exists(output_vhd_path):
+
+
+
 
 ---------------------
 for stopping_vm
