@@ -39,14 +39,12 @@ def start_vm (shared_data):
   location = config.location
   account_url = shared_data.get('account_url', '')
   vhd_url = account_url + "/" + config.container_name + "/" + config.blob_name
+  nic_id = shared_data.get('nic_id', '')
   
   credential = InteractiveBrowserCredential()
   compute_client = ComputeManagementClient(credential, subscription_id)
   network_client = NetworkManagementClient(credential, subscription_id)
   resource_client = ResourceManagementClient(credential, subscription_id)
-
-  # --- Example: assume a network interface already exists ---
-  nic_id = "/subscriptions/.../resourceGroups/.../providers/Microsoft.Network/networkInterfaces/MyNIC"
 
   vm_params = {
       "location": location,
