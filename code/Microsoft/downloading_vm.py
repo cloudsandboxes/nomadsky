@@ -37,7 +37,7 @@ def download_vm(shared_data):
         subscription_id = shared_data.get('subscription_id', '')
         resource_group = shared_data.get('resource_group', '')
         os_disk_id = shared_data.get('os_disk_id', '')
-        output_vhd_path = fr"C:\Temp\osdisk-'{vmname}'.vhd"
+        output_vhd_path = fr"C:\Temp\osdisk-{vmname}.vhd"
         exportdisktype = config.exportdisktype
 
         if os.path.exists(output_vhd_path):
