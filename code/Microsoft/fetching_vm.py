@@ -55,14 +55,18 @@ def fetch_vm(vmname):
                              power_state  = full_vm.instance_view.statuses
                              os_disk_id = vm.storage_profile.os_disk.managed_disk.id
                              os_type = vm.storage_profile.os_disk.os_type  # 'Linux' of 'Windows'
-                             for status in full_vm.statuses:
+                             instance_view = compute_client.virtual_machines.instance_view(
+                                    resource_group_name=resource_group,
+                                    vm_name=vmname
+                                )
+                             for status in instance_view.statuses:
                                     if status.code.startswith('PowerState/'):
                                         power_state = status.code.split('/')[-1]  # 'running', 'deallocated', 'stopped', etc.
                              break
                 except HttpResponseError as e:
                      #print(f"Skipping subscription {sub.subscription_id}: {e.message}")
                      continue
-
+        
         if not vm_found:
             raise Exception(f"VM '{vmname}' not found in {source}")
         else:
