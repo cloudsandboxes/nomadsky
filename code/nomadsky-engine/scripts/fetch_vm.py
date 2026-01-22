@@ -13,7 +13,7 @@ if destination == 'azure':
       from fetching_vm import fetch_vm
           
       try:
-            results = fetch_vm(vmname)
+            result = fetch_vm(vmname)
             print(json.dumps(result))
       except IndexError:
         raise Exception('something went wrong, the vm is not found in Azure!')   
