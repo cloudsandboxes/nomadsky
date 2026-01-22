@@ -1,106 +1,111 @@
-import sys
-sys.path.append(r"C:/projects/nomadsky/code/Microsoft")
-import json
-import os
-import time
-from time import sleep
-import requests
-from datetime import datetime, timedelta, timezone
-import config
+# -------------------------------
+# downloding the VM from Azure with the given name to the Temp-disk. Input variables is the VM name to stop, existing parameters from shared_data. 
+# Other input variables are read from config.py
+# The output is a vhd file stored in temp.
+# When running this script for testing, fill in parameters: for resource_id is the vm to stop., vmname = vmname, source is azure, destination not needed. 
+# -------------------------------
+
+
+def download_vm(shared_data):
+        import sys
+        import json
+        import os
+        import time
+        from time import sleep
+        import requests
+        from datetime import datetime, timedelta, timezone
+        sys.path.append(r"C:/projects/nomadsky/code/Microsoft")
+        from azure.identity import InteractiveBrowserCredential
+        from azure.mgmt.compute import ComputeManagementClient
+        from azure.mgmt.resource import ResourceManagementClient
+        from azure.mgmt.resource import SubscriptionClient
+        from azure.core.exceptions import HttpResponseError
+
+        # Get arguments
+        source = sys.argv[1]
+        destination = sys.argv[2]
+        vmname = sys.argv[3].lower()
+        import config
+        shared_data_json = sys.argv[4]  # 4th argument
+        shared_data = json.loads(shared_data_json)
+        # Extract specific value
+        resource_id = shared_data.get('resource_id', '')
+
+
       
+        # Extract specific value
+        subscription_id = shared_data.get('subscription_id', '')
+        resource_group = shared_data.get('resource_group', '')
+        os_disk_id = shared_data.get('os_disk_id', '')
+        output_vhd_path = fr"C:\Temp\osdisk-'{vmname}'.vhd"
+        exportdisktype = config.exportdisktype
 
-# Get arguments
-source = sys.argv[1]
-destination = sys.argv[2]
-vmname = sys.argv[3].lower()
-shared_data_json = sys.argv[4]  # 4th argument
-shared_data = json.loads(shared_data_json)
-# Extract specific value
-subscription_id = shared_data.get('subscription_id', '')
-resource_group = shared_data.get('resource_group', '')
-os_disk_id = shared_data.get('os_disk_id', '')
-output_vhd_path = r"C:\Temp\osdisk.vhd"
-exportdisktype = config.exportdisktype
+        if os.path.exists(output_vhd_path):
+               file_size_gb = os.path.getsize(output_vhd_path) / (1024**3) 
+               result = {
+                  'message': f"VM '{vmname}' already downloaded from {source}!",
+                  'exportdisktype' : exportdisktype,
+                  'output_vhd_path' : output_vhd_path
+                 }
+        else: 
+              # Use interactive browser login
+              tenant_id = config.tenantid
+              credential = InteractiveBrowserCredential(tenant_id=tenant_id)
 
-from azure.identity import InteractiveBrowserCredential
-from azure.mgmt.resource import ResourceManagementClient
-from azure.mgmt.compute import ComputeManagementClient
-from azure.mgmt.resource import SubscriptionClient
-from azure.core.exceptions import HttpResponseError
-  
+              # -------------------------------
+              # 3) REQUEST DISK EXPORT (ASYNC)
+              # -------------------------------
+              compute_client = ComputeManagementClient(credential, subscription_id)
 
-# Use interactive browser login
-tenant_id = config.tenantid
-credential = InteractiveBrowserCredential(tenant_id=tenant_id)
+              # Generate SAS URL
+              now_utc = datetime.now(timezone.utc)
+              expiry_time = now_utc + timedelta(hours=1)
 
-# -------------------------------
-# 3) REQUEST DISK EXPORT (ASYNC)
-# -------------------------------
-compute_client = ComputeManagementClient(credential, subscription_id)
+              sas = compute_client.disks.begin_grant_access(
+                resource_group_name=resource_group,
+                disk_name=os_disk_id.split('/')[-1],
+                grant_access_data={"access": "Read", "duration_in_seconds": 3600}
+                ).result()
+              sas_url = sas.access_sas
+              #print(sas_url)
 
-# Generate SAS URL
-# current UTC time, timezone-aware
-now_utc = datetime.now(timezone.utc)
-# example: 1 hour later
-expiry_time = now_utc + timedelta(hours=1)
+              # -------------------------------
+              # 4) DOWNLOAD THE VHD
+              # -------------------------------
 
-sas = compute_client.disks.begin_grant_access(
-    resource_group_name=resource_group,
-    disk_name=os_disk_id.split('/')[-1],
-    grant_access_data={"access": "Read", "duration_in_seconds": 3600}
-).result()
-sas_url = sas.access_sas
-#print(sas_url)
+              chunk_size = 50 * 1024 * 1024  # 50 MB per chunk
+              max_retries = 5
 
-# -------------------------------
-# 4) DOWNLOAD THE VHD
-# -------------------------------
+              # Resume if file exists
+              start_byte = os.path.getsize(output_vhd_path) if os.path.exists(output_vhd_path) else 0
 
+              while True:
+                    headers = {"Range": f"bytes={start_byte}-"}
+                    try:
+                       with requests.get(sas_url, headers=headers, stream=True, timeout=60) as r:
+                           r.raise_for_status()
+                           mode = "ab" if start_byte > 0 else "wb"
+                           with open(output_vhd_path, mode) as f:
+                               for chunk in r.iter_content(chunk_size=chunk_size):
+                                   if chunk:
+                                       f.write(chunk)
+                                       start_byte += len(chunk)
+                                       #print(f"Downloaded {start_byte / (1024*1024):.1f} MB", end="\r")
+                       break  # finished successfully
+                    except (requests.ConnectionError, requests.ChunkedEncodingError) as e:
+                       #print(f"\nConnection error, retrying... ({e})")
+                       sleep(5)  # wait a few seconds
+                       max_retries -= 1
+                       if max_retries <= 0:
+                           raise Exception("Max retries exceeded")
 
-def download(output_vhd_path, sas_url):
-   chunk_size = 50 * 1024 * 1024  # 50 MB per chunk
-   max_retries = 5
-
-   # Resume if file exists
-   start_byte = os.path.getsize(output_vhd_path) if os.path.exists(output_vhd_path) else 0
-
-   while True:
-       headers = {"Range": f"bytes={start_byte}-"}
-       try:
-           with requests.get(sas_url, headers=headers, stream=True, timeout=60) as r:
-               r.raise_for_status()
-               mode = "ab" if start_byte > 0 else "wb"
-               with open(output_vhd_path, mode) as f:
-                   for chunk in r.iter_content(chunk_size=chunk_size):
-                       if chunk:
-                           f.write(chunk)
-                           start_byte += len(chunk)
-                           #print(f"Downloaded {start_byte / (1024*1024):.1f} MB", end="\r")
-           break  # finished successfully
-       except (requests.ConnectionError, requests.ChunkedEncodingError) as e:
-           #print(f"\nConnection error, retrying... ({e})")
-           sleep(5)  # wait a few seconds
-           max_retries -= 1
-           if max_retries <= 0:
-               raise Exception("Max retries exceeded")
-
-if os.path.exists(output_vhd_path):
-   file_size_gb = os.path.getsize(output_vhd_path) / (1024**3) 
-   result = {
-      'message': f"VM '{vmname}' already downloaded from {source}!",
-      'exportdisktype' : exportdisktype,
-      'output_vhd_path' : output_vhd_path
-   }
-   print(json.dumps(result))
-else: 
-   download(output_vhd_path, sas_url)
-   file_size_gb = os.path.getsize(output_vhd_path) / (1024**3) 
-   result = {
-      'message': f"VM '{vmname}' successfully downloaded from {source}!",
-         'exportdisktype' : exportdisktype,
-         'output_vhd_path' : output_vhd_path,
-     }
-   print(json.dumps(result))
+              file_size_gb = os.path.getsize(output_vhd_path) / (1024**3) 
+              result = {
+                  'message': f"VM '{vmname}' successfully downloaded from {source}!",
+                  'exportdisktype' : exportdisktype,
+                  'output_vhd_path' : output_vhd_path,
+                  }
+              return result
 
 
 
@@ -109,9 +114,6 @@ else:
 
 
 """    
-    file_size_gb = os.path.getsize(output_vhd_path) / (1024**3)
-
-#print(f"File size: {file_size_gb:.2f} GB")
     
     # -------------------------------
     # 5) REVOKE ACCESS (OPTIONAL)
