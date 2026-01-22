@@ -1,7 +1,7 @@
 def start_vm (shared_data):
   import sys
   sys.path.append(r"C:/projects/nomadsky/code/Microsoft")
-  from azure.identity import InteractiveAzureCredential
+  from azure.identity import InteractivebrowserCredential
   from azure.mgmt.compute import ComputeManagementClient
   from azure.mgmt.network import NetworkManagementClient
   from azure.mgmt.resource import ResourceManagementClient
@@ -40,7 +40,7 @@ def start_vm (shared_data):
   account_url = shared_data.get('account_url', '')
   vhd_url = account_url + "/" + config.container_name + "/" + config.blob_name
   
-  credential = InteractiveAzureCredential()
+  credential = InteractiveBrowserCredential()
   compute_client = ComputeManagementClient(credential, subscription_id)
   network_client = NetworkManagementClient(credential, subscription_id)
   resource_client = ResourceManagementClient(credential, subscription_id)
