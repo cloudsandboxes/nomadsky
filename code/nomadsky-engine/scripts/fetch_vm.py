@@ -16,7 +16,7 @@ if destination == 'azure':
             results = fetch_vm(vmname)
             print(json.dumps(result))
       except IndexError:
-        raise Exception(f" something went wrong the vm is not found in '{source}'!)   
+        raise Exception('something went wrong, the vm is not found in Azure!')   
 
 elif destination == 'aws':
    a='empty'
