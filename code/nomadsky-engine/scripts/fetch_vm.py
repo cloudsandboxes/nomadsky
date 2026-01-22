@@ -25,9 +25,20 @@ if source == 'azure':
         raise Exception('something went wrong, the vm is not found in Azure!')   
 
 elif source == 'aws':
-   a='empty'
-   #     # AWS boto3 code to find VM
-   # etc.
+      # Amazon SDK code to find VM
+      sys.path.append(r"C:/projects/nomadsky/code/Amazon")
+      import config
+      from fetching_vm import fetch_vm
+          
+      try:
+            result = fetch_vm(vmname)
+            print(json.dumps(result))
+      except IndexError:
+        raise Exception('something went wrong, the vm is not found in AWS!')  
+
+else:
+      raise Exception('something went wrong, the source cloud platform is not supported!')  
+
 
 
 # Setup logger
