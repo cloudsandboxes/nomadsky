@@ -56,7 +56,7 @@ def start_vm (shared_data):
       },
       "storage_profile": {
           "os_disk": {
-              "os_type": "Windows" # os_type   "Windows" or "Linux"
+              "os_type": "Windows", # os_type   "Windows" or "Linux"
               "name": f"{vm_name}_OSDisk",
               "caching": "ReadWrite",
               "create_option": "FromImage",
