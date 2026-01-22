@@ -8,3 +8,4 @@ py -m pip install azure-mgmt-storage
 py -m pip install  azure-core
 py -m pip install  azure-mgmt-network
 py -m pip install azure-mgmt-compute
+py -m pip install opencensus-ext-azure
