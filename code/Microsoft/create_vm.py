@@ -18,7 +18,7 @@ def start_vm (shared_data):
   nic_id = shared_data.get('nic_id', '')
   os_type = shared_data.get('os_type', '')
   vm_size = shared_data.get('vm_size', '')
-  disk_name: "disk-name-mooi-{vm_name}",
+  disk_name = f"disk-name-mooi-{vm_name}"
   
 
   #vhd_url = 'https://compliceert20.blob.core.windows.net/vhds/osdisk.vhd'
