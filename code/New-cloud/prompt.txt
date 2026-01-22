@@ -1,0 +1,16 @@
+create the following files:
+
+For fetching_vm.py:
+
+create a def in python. with interactive login to XXXXXXX, based on VM name search over all accounts available.
+when found return details about id, size, os, and disk details. store this in parameter result, similar to this:
+ result = {
+              'message': f"VM '{vmname}' found successfully in {source}!",
+              'vm_size': vm_size,
+              'resource_id': resource_id} 
+and return the result
+when not found raise an error.
+put everything in one def.
+
+
+
