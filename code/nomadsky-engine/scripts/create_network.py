@@ -45,7 +45,7 @@ logger.addHandler(AzureLogHandler(connection_string="InstrumentationKey=bde21699
 logger.setLevel(logging.INFO)
 
 # Prepare JSON data
-times = datetime.datetime.now(timezone.utc)
+times = datetime.now(timezone.utc)
 data = {
     "unique_id": unique_id,
     "step": "create-network",
