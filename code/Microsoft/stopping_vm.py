@@ -46,6 +46,6 @@ def stop_vm(shared_data):
 
         result = {
           'message': f"VM '{vmname}' has been deallocated successfully!",
-          'resource_id': vm_resource_id
+          'resource_id': resource_id
         }
         return result
