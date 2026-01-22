@@ -12,7 +12,8 @@ def create_network(shared_data):
     vnet_base_name = 'vnet-vms'
     nic_base_name = 'nic-vm'
     
-    credential = InteractiveBrowserCredential()
+    tenant_id = config.destionationtenantid
+    credential = InteractiveBrowserCredential(tenant_id=tenant_id)
     network_client = NetworkManagementClient(credential, subscription_id)
 
     vnet_index = 0
