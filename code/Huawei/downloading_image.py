@@ -9,9 +9,29 @@ def download_huawei_vm():
     Raises:
         Exception: If download fails
     """
+    import sys
+    import os
+    import time
+    from datetime import datetime
+
+    # Huawei Cloud imports
+    from huaweicloudsdkcore.auth.credentials import BasicCredentials
+    from huaweicloudsdkcore.http.http_config import HttpConfig
+    from huaweicloudsdkecs.v2 import EcsClient, ListServersDetailsRequest
+    from huaweicloudsdkecs.v2.region.ecs_region import EcsRegion
+    from huaweicloudsdkims.v2 import ImsClient, CreateWholeImageRequest, CreateWholeImageRequestBody
+    from huaweicloudsdkims.v2.region.ims_region import ImsRegion
+    from huaweicloudsdkevs.v2 import EvsClient, ListVolumesRequest
+    from huaweicloudsdkevs.v2.region.evs_region import EvsRegion
+    from huaweicloudsdkobs import ObsClient
+
+    sys.path.append(r"C:/projects/nomadsky/code/huawei")
+    import config
+    source = sys.argv[1]
+    destination = sys.argv[2]
+    vm_name = sys.argv[3].lower()
     
     # Get parameters from config
-    vm_name = config.vm_name
     ak = config.ak
     sk = config.sk
     region = config.region
