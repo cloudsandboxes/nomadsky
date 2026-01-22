@@ -1,9 +1,10 @@
 import sys
 import subprocess
 import json
+from datetime import datetime, timezone
+from opencensus.ext.azure.log_exporter import AzureLogHandler
+import logging
 
-# Simulate fetching VM
-# TODO: Add actual API calls to source platform here
 
 # Get arguments
 source = sys.argv[1]
@@ -45,3 +46,22 @@ elif destination == 'aws':
 #except IndexError:
 #        raise Exception(f" Invalid resource ID format: '{vm_resource_id}' ")
     
+
+
+
+# Setup logger
+logger = logging.getLogger(__name__)
+logger.addHandler(AzureLogHandler(connection_string="InstrumentationKey=bde21699-fbec-4be5-93ce-ee81109b211f"))
+logger.setLevel(logging.INFO)
+
+# Prepare JSON data
+times = datetime.now(timezone.utc)
+data = {
+    "unique_id": unique_id,
+    "step": "transform",
+    "time": times,
+    "message": f"VM disk transformed to format from '{destination}'"
+}
+
+# Send as custom log
+logger.info(data)
