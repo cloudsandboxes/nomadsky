@@ -43,7 +43,8 @@ def start_vm (shared_data):
   os_type = shared_data.get('os_type', '')
   vm_size = shared_data.get('vm_size', '')
   
-  credential = InteractiveBrowserCredential()
+  tenant_id = config.destionationtenantid
+  credential = InteractiveBrowserCredential(tenant_id=tenant_id)
   compute_client = ComputeManagementClient(credential, subscription_id)
   network_client = NetworkManagementClient(credential, subscription_id)
   resource_client = ResourceManagementClient(credential, subscription_id)
@@ -55,7 +56,7 @@ def start_vm (shared_data):
       },
       "storage_profile": {
           "os_disk": {
-              "os_type": os_type  # "Windows" or "Linux"
+              "os_type": "Windows" # os_type   "Windows" or "Linux"
               "name": f"{vm_name}_OSDisk",
               "caching": "ReadWrite",
               "create_option": "FromImage",
