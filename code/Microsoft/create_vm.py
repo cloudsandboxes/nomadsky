@@ -48,7 +48,7 @@ def start_vm (shared_data):
   compute_client = ComputeManagementClient(credential, subscription_id)
   network_client = NetworkManagementClient(credential, subscription_id)
   resource_client = ResourceManagementClient(credential, subscription_id)
-
+  
   vm_params = {
       "location": location,
       "hardware_profile": {
@@ -59,8 +59,7 @@ def start_vm (shared_data):
               "os_type": "Windows", # os_type   "Windows" or "Linux"
               "name": f"{vm_name}_OSDisk",
               "caching": "ReadWrite",
-              "create_option": "FromImage",
-              "managed_disk": {"storage_account_type": "Standard_LRS"},  # options: Standard_LRS, StandardSSD_LRS, Premium_LRS},
+              "create_option": "Attach",
               "vhd": {
                   "uri": vhd_url
               }
