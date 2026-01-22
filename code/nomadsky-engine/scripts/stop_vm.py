@@ -16,10 +16,6 @@ if source == 'azure':
           
       try:
             result = stop_vm(shared_data)
-            result = {
-             'message': f"the diskfile is succesfully transfered to '{destination}' at the '{url}'",
-             'disk_url' : url
-             }
             print(json.dumps(result))
       except IndexError:
         raise Exception(f" Invalid resource ID format: '{shared_data}' ")
