@@ -1,14 +1,18 @@
-from azure.identity import InteractiveBrowserCredential
 from azure.mgmt.network import NetworkManagementClient
 from azure.core.exceptions import ResourceExistsError
 
-def create_network(
-    subscription_id: str,
-    resource_group: str,
-    location: str,
-    vnet_base_name: str,
-    nic_name: str
-) -> str:
+def create_network(shared_data):
+    import sys
+    sys.path.append(r"C:/projects/nomadsky/code/Microsoft")
+    from azure.identity import InteractiveBrowserCredential
+    import config
+
+    subscription_id = config.subscription_id
+    resource_group = config.resource_group
+    location = config.location
+    vnet_base_name = 'vnet-vms'
+    nic_base_name = 'nic-vm'
+    
     credential = InteractiveBrowserCredential()
     network_client = NetworkManagementClient(credential, subscription_id)
 
@@ -52,7 +56,7 @@ def create_network(
             }
         ],
     }
-
+    nic_name = f"{nic_base_name}-{vnet_index}"
     nic = network_client.network_interfaces.begin_create_or_update(
         resource_group, nic_name, nic_params
     ).result()
