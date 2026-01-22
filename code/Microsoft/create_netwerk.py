@@ -1,11 +1,10 @@
-from azure.mgmt.network import NetworkManagementClient
-from azure.core.exceptions import ResourceExistsError
-
 def create_network(shared_data):
     import sys
     sys.path.append(r"C:/projects/nomadsky/code/Microsoft")
     from azure.identity import InteractiveBrowserCredential
     import config
+    from azure.mgmt.network import NetworkManagementClient
+    from azure.core.exceptions import ResourceExistsError
 
     subscription_id = config.subscription_id
     resource_group = config.resource_group
