@@ -14,7 +14,7 @@ shared_data = json.loads(shareddata_json)
 unique_id = sys.argv[5]
 
 if source == 'azure':
-      # Azure SDK code to find VM
+      # Azure SDK code to stop VM
       sys.path.append(r"C:/projects/nomadsky/code/Microsoft")
       import config
       from stopping_vm import stop_vm
@@ -26,10 +26,18 @@ if source == 'azure':
         raise Exception(f" Invalid resource ID format: '{shared_data}' ")
    
 elif source == 'aws':
-   a='empty'
-   #     # AWS boto3 code to find VM
-   # etc.
-
+      # AWS SDK code to stop VM
+      sys.path.append(r"C:/projects/nomadsky/code/Amazon")
+      import config
+      from stopping_vm import stop_aws_vm
+          
+      try:
+            result = stop_aws_vm(shared_data)
+            print(json.dumps(result))
+      except IndexError:
+        raise Exception(f" Invalid resource ID format: '{shared_data}' ")
+else:
+      raise Exception(f" The source platform is not yet supported: '{source}' ")
 
 # Setup logger
 logger = logging.getLogger(__name__)
