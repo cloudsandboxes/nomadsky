@@ -12,7 +12,7 @@ if destination == 'azure':
       # Azure SDK code to find VM
       sys.path.append(r"C:/projects/nomadsky/code/Microsoft")
       import config
-      from create_network import create_network
+      from create_networking import create_network
           
       try:
             nic = create_network(shared_data)
