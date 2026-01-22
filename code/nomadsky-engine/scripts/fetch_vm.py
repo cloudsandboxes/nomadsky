@@ -6,7 +6,7 @@ source = sys.argv[1]
 destination = sys.argv[2]
 vmname = sys.argv[3].lower()
 
-if destination == 'azure':
+if source == 'azure':
       # Azure SDK code to find VM
       sys.path.append(r"C:/projects/nomadsky/code/Microsoft")
       import config
@@ -18,7 +18,7 @@ if destination == 'azure':
       except IndexError:
         raise Exception('something went wrong, the vm is not found in Azure!')   
 
-elif destination == 'aws':
+elif source == 'aws':
    a='empty'
    #     # AWS boto3 code to find VM
    # etc.
