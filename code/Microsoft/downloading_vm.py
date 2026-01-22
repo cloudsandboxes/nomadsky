@@ -41,9 +41,9 @@ def download_vm(shared_data):
         exportdisktype = config.exportdisktype
 
         if os.path.exists(output_vhd_path):
-               file_size_gb = os.path.getsize(output_vhd_path) / (1024**3) 
+               #file_size_gb = os.path.getsize(output_vhd_path) / (1024**3) 
                result = {
-                  'message': f"VM '{vmname}' already downloaded from '{source}'!",
+                  'message': f"VM {vmname} already downloaded from {source}!",
                   'exportdisktype' : exportdisktype,
                   'output_vhd_path' : output_vhd_path
                  }
