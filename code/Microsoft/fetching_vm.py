@@ -1,9 +1,12 @@
 # -------------------------------
-# code to find the first VM in Azure with the given name. input variables are read from config.py and output are the vm details.
+# Find the first VM in Azure with the given name. Input variables is the VM name to search for. 
+# Other input varialbes are read from config.py
+# The output is the vm details in json format.
+# When running this script for testing, fill in a vmname that exists in Azure 
 # -------------------------------
 
 
-def fetch_vm():
+def fetch_vm(vmname):
         import sys
         import json
         sys.path.append(r"C:/projects/nomadsky/code/Microsoft")
@@ -53,7 +56,7 @@ def fetch_vm():
                              os_disk_id = vm.storage_profile.os_disk.managed_disk.id
                              break
                 except HttpResponseError as e:
-                     print(f"Skipping subscription {sub.subscription_id}: {e.message}")
+                     #print(f"Skipping subscription {sub.subscription_id}: {e.message}")
                 continue
 
         if not vm_found:
@@ -72,6 +75,6 @@ def fetch_vm():
               'os_disk_id' : os_disk_id,
               'vm_name' : vmname
             }
+            return result
 
-        print(json.dumps(result))
-fetch_vm()
+fetch_vm('helpmij')
