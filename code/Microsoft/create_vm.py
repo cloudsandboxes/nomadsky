@@ -71,14 +71,15 @@ def start_vm (shared_data):
           "network_interfaces": [
               {"id": nic_id, "primary": True}
           ]
-      },
-      "os_profile": {
-          "computer_name": vm_name,
-          "admin_username": username,
-          "admin_password": password  # for Windows/Linux
-      }
+      }      
   }
 
+  #"os_profile": {
+  #        "computer_name": vm_name,
+  #        "admin_username": username,
+  #        "admin_password": password  # for Windows/Linux
+  #    }
+  
   async_vm_creation = compute_client.virtual_machines.begin_create_or_update(resource_group, vm_name, vm_params)
   async_vm_creation.wait()
   #print(f"VM {vm_name} created from VHD!")
