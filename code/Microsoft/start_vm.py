@@ -40,6 +40,8 @@ def start_vm (shared_data):
   account_url = shared_data.get('account_url', '')
   vhd_url = account_url + "/" + config.container_name + "/" + config.blob_name
   nic_id = shared_data.get('nic_id', '')
+  os_type = shared_data.get('os_type', '')
+  vm_size = shared_data.get('vm_size', '')
   
   credential = InteractiveBrowserCredential()
   compute_client = ComputeManagementClient(credential, subscription_id)
@@ -49,11 +51,11 @@ def start_vm (shared_data):
   vm_params = {
       "location": location,
       "hardware_profile": {
-          "vm_size": "Standard_DS1_v2"
+          "vm_size": vm_size
       },
       "storage_profile": {
           "os_disk": {
-              "os_type": "Windows",  # or "Linux"
+              "os_type": os_type  # "Windows" or "Linux"
               "name": f"{vm_name}_OSDisk",
               "caching": "ReadWrite",
               "create_option": "FromImage",
