@@ -1,4 +1,4 @@
-def download_huawei_vm():
+def download_huawei_vm(shared_data):
     """
     Download OS disk from a stopped Huawei Cloud VM.
     Creates image, exports to OBS, and downloads to local disk.
