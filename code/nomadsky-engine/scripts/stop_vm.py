@@ -36,6 +36,18 @@ elif source == 'aws':
             print(json.dumps(result))
       except IndexError:
         raise Exception(f" Invalid resource ID format: '{shared_data}' ")
+
+elif source == 'huawei':
+      # Huawei SDK code to stop VM
+      sys.path.append(r"C:/projects/nomadsky/code/Huawei")
+      import config
+      from stopping_vm import stop_huawei_vm
+          
+      try:
+            result = stop_huawei_vm(shared_data)
+            print(json.dumps(result))
+      except IndexError:
+        raise Exception(f" Invalid resource ID format: '{shared_data}' ")
 else:
       raise Exception(f" The source platform is not yet supported: '{source}' ")
 
@@ -50,7 +62,7 @@ data = {
     "unique_id": unique_id,
     "step": "stop-vm",
     "time": times,
-    "message": f"VM stoped in '{source}'"
+    "message": f"VM stopped in '{source}'"
 }
 
 # Send as custom log
