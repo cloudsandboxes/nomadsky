@@ -47,7 +47,7 @@ def download_vm(shared_data):
                   'exportdisktype' : exportdisktype,
                   'output_vhd_path' : output_vhd_path
                  }
-                return result
+               return result
         
         else: 
               # Use interactive browser login
