@@ -17,8 +17,9 @@ def create_network(shared_data):
     network_client = NetworkManagementClient(credential, subscription_id)
 
     vnet_index = 0
+    x = 0
 
-    while True:
+    while x != 1:
         try:
             address_prefix = f"10.0.{vnet_index}.0/29"
             vnet_name = f"{vnet_base_name}-{vnet_index}"
@@ -52,6 +53,7 @@ def create_network(shared_data):
                  subnet = network_client.subnets.get(
                    resource_group, vnet_name, subnet_name
                  )
+                 x=1
             else:
                 raise
     # Create NIC
