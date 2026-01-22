@@ -5,6 +5,7 @@ def start_vm (shared_data):
   from azure.mgmt.compute import ComputeManagementClient
   from azure.mgmt.network import NetworkManagementClient
   from azure.mgmt.resource import ResourceManagementClient
+  from azure.mgmt.compute.models import Disk, CreationData, DiskCreateOption
   import config
   import re
   
@@ -28,6 +29,28 @@ def start_vm (shared_data):
   network_client = NetworkManagementClient(credential, subscription_id)
   resource_client = ResourceManagementClient(credential, subscription_id)
 
+  disk_name = "my_new_managed_disk"
+
+  # Define disk properties and source
+  disk_parameters = Disk(
+      location=location,
+      creation_data=CreationData(
+          create_option=DiskCreateOption.IMPORT,
+          source_uri=vhd_url
+        )
+      )
+
+  # Execute the creation command
+  poller = compute_client.disks.begin_create_or_update(
+    resource_group,
+    disk_name,
+    disk_parameters
+  )
+
+  #   Wait for completion
+  disk_result = poller.result()
+  print(f"Managed Disk created successfully: {disk_result.id}")
+
   disk_params = {
     "location": location,
     "creation_data": {
@@ -37,11 +60,11 @@ def start_vm (shared_data):
     "sku": {"name": "Standard_LRS"}  # optional: Standard HDD/SSD
   }
 
-  managed_disk = compute_client.disks.begin_create_or_update(
-    resource_group,
-    "MyManagedDisk",
-    disk_params
-  ).result()
+  #managed_disk = compute_client.disks.begin_create_or_update(
+   # resource_group,
+   # "MyManagedDisk",
+   # disk_params
+  #).result()
  
   vm_params = {
       "location": location,
