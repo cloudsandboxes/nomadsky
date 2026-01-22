@@ -47,6 +47,7 @@ def download_vm(shared_data):
                   'exportdisktype' : exportdisktype,
                   'output_vhd_path' : output_vhd_path
                  }
+        '''
         else: 
               # Use interactive browser login
               tenant_id = config.tenantid
@@ -107,7 +108,7 @@ def download_vm(shared_data):
                   }
               return result
 
-
+'''
 
 
 
