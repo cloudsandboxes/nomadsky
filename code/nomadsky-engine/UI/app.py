@@ -12,6 +12,10 @@ py -m pip install  azure-core
 py -m pip install  azure-mgmt-network
 py -m pip install azure-mgmt-compute
 
+#running GCP Google
+py -m pip install google-cloud-compute
+py -m pip install google-cloud-storage
+py -m pip install google-auth
 
 #running huawei
 py -m pip install huaweicloudsdkcore
