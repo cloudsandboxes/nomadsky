@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from opencensus.ext.azure.log_exporter import AzureLogHandler
 import logging
 
+
 # Get arguments
 source = sys.argv[1]
 destination = sys.argv[2]
@@ -50,7 +51,7 @@ data = {
     "unique_id": unique_id,
     "step": "create-network",
     "time": times,
-    "message": "VM network created"
+    "message": f"VM network created in '{destination}'"
 }
 
 # Send as custom log
