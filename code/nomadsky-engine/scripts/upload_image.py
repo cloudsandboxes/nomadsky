@@ -20,11 +20,11 @@ if destination == 'azure':
           
       try:
             url = upload_disk(shared_data)
-            result = {
-             'message': f"the diskfile is succesfully transfered to '{destination}' at the '{url}'",
-             'disk_url' : url
-             }
-            print(json.dumps(result))
+            #result = {
+            #'message': f"the diskfile is succesfully transfered to '{destination}' at the '{url}'",
+            #'disk_url' : url
+            # }
+            print(json.dumps(url))
       except IndexError:
         raise Exception(f" Invalid resource ID format: '{shared_data}' ")
    
