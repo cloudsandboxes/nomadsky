@@ -35,4 +35,43 @@ VM_SIZES = {
         "large": "ecs.r6.2xlarge"
     }
 }
-VM_SIZE["azure"]["small"]
+#VM_SIZE["azure"]["small"]
+
+preferred_type = {
+    "azure": {
+        "import": ("vhd",),
+        "export": ("vhd",)
+    },
+    "aws": {
+        "import": ("vhd", "vmdk", "raw"),
+        "export": ("vhd", "vmdk")
+    },
+    "huawei": {
+        "import": ("vhd", "vmdk", "qcow2", "raw", "vhdx", "qcow", "vdi", "qed", "zvhd", "zvhd2"),
+        "export": ("vhd", "vmdk", "qcow2", "raw")
+    },
+    "ibm": {
+        "import": ("vhd", "qcow2", "raw"),
+        "export": ("vhd", "qcow2")
+    },
+    "oracle": {
+        "import": ("vmdk", "qcow2", "vhd"),
+        "export": ("vmdk", "qcow2", "vhd")
+    },
+    "ovhcloud": {
+        "import": ("qcow2", "raw", "vmdk"),
+        "export": ("qcow2", "raw")
+    },
+    "stackit": {
+        "import": ("qcow2", "raw", "vmdk", "vdi"),
+        "export": ("qcow2", "raw")
+    },
+    "hetzner": {
+        "import": ("raw", "qcow2"),
+        "export": ("raw", "qcow2")
+    },
+    "gcp": {
+        "import": ("vmdk", "vhd", "vhdx", "raw"),
+        "export": ("vmdk", "raw")
+    }
+}
