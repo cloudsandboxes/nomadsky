@@ -13,37 +13,23 @@ vmname = sys.argv[3].lower()
 shareddata_json = sys.argv[4]
 shared_data = json.loads(shareddata_json)
 exportdisktype = shared_data.get('exportdisktype', '')
+importdisktype = shared_data.get('importdisktype', '')
 unique_id = sys.argv[5]
+output_disk_path= r"C:\temp\output"
 
-# Using a set (fastest for membership testing)
-def check_value(value, allowed_values={1, 2, 3}):
-    return value in allowed_values
-
-
-if destination == 'azure':
-      # Azure SDK code to find VM
-      sys.path.append(r"C:/projects/nomadsky/code/Microsoft")
-      import config
-      importdisktype = config.importdisktype
-      if exportdisktype in importdisktype:
+if exportdisktype == importdisktype:
         result = {
-             'message': f"the diskfile type is already '{config.importdisktype}' so no need to transform type!",
+             'message': f"the diskfile type is already '{importdisktype}' so no need to transform type!", 
              }
-        print(json.dumps(result))
-      else:
-            importdisktype = importdisktype[0]
+else:
             #do qemu to convert the current disk(export) to the outputformat (importdisktype).
             #subprocess.run([qemu_path, "convert", "-O", output_format, os_disk_path, output_disk_path], check=True)
-            (result add = new_diskpath = output_disk_path)
+            #(result add = new_diskpath = output_disk_path)
             result = {
-             'message': f"the import diskfile type is different '{config.importdisktype}' to the export type '{exportfiletype}' so need to transform!",
+             'message': f"the import diskfile type is different '{importdisktype}' to the export type '{exportfiletype}' so need to transform!",
              }
-            print(json.dumps(result))
-       
-elif destination == 'aws':
-   a='empty'
-   #     # AWS boto3 code to find VM
-   # etc.
+print(json.dumps(result))
+
 
 
 
@@ -61,12 +47,7 @@ elif destination == 'aws':
 #from helpers import my_function
 #result = my_function(5)
 
-
-#try:
-#    subscription_id = vm_resource_id
-#except IndexError:
-#        raise Exception(f" Invalid resource ID format: '{vm_resource_id}' ")
-    
+   
 
 
 
