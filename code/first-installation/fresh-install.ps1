@@ -349,7 +349,7 @@ try {
     }
 } catch {
     Write-Host "ERROR: Failed to clone repository: $_" -ForegroundColor Red
-    exit 0
+    #exit 0
 }
 
 Write-Host "`nDone!" -ForegroundColor Green
