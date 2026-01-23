@@ -19,7 +19,6 @@ if source == 'azure':
           
       try:
             result = fetch_vm(vmname)
-            print(json.dumps(result))
       except IndexError:
         raise Exception('something went wrong, the vm is not found in Azure!')   
 
@@ -31,7 +30,6 @@ elif source == 'aws':
           
       try:
             result = search_ec2_instance(vmname)
-            print(json.dumps(result))
       except IndexError:
         raise Exception('something went wrong, the vm is not found in AWS!')  
 
@@ -43,7 +41,6 @@ elif source == 'huawei':
           
       try:
             result = search_huawei_vm(vmname)
-            print(json.dumps(result))
       except IndexError:
         raise Exception('something went wrong, the vm is not found in Huawei Cloud!')  
 else:
@@ -77,10 +74,9 @@ def find_best_format(source_platform, destination_platform):
     return source_exports[0], destination_imports[0]
 
 exportdisktype,importdisktype = find_best_format(source,destination)
-
-results.append(exportdisktype=)
-
-
+result["exportdisktype"]= exportdisktype
+result["importdisktype"]= importdisktype
+print(json.dumps(result)) 
 
 #---------------------
 #logs for research purpose
