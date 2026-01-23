@@ -36,6 +36,9 @@ def start_vm (shared_data):
   # Create managed disk from VHD
   disk_params = Disk(
       location=location,
+      hyper_v_generation='V2',  # V1 or V2 - match your source VM
+      security_profile=DiskSecurityProfile(
+        security_type=SecurityTypes.TRUSTED_LAUNCH),  # For Trusted Launch VMs
       creation_data={
           'create_option': DiskCreateOption.IMPORT,
           'source_uri': vhd_url,
