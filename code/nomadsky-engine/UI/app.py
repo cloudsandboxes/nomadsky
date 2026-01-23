@@ -24,5 +24,5 @@ py -m pip install huaweicloudsdkims
 py -m pip install huaweicloudsdkevs
 py -m pip install huaweicloudsdkobs
 
-running aws
+# running aws
 py -m pip install boto3
