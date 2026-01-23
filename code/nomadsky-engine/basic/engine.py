@@ -14,11 +14,24 @@ vars_dict = config.get("variables", {})
 # -------------------------------
 print("Installing required Python packages...")
 
-run ....
-
-# Install packages for both source and destination
-install_packages(platform_packages.get(source_platform, []))
-install_packages(platform_packages.get(destination_platform, []))
+script_path = f'C:/projects/nomadsky/code/nomadsky-engine/UI/app.py'  
+    try:
+        result = subprocess.run(
+            ['python', script_path],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        
+        return jsonify({
+            'success': True,
+            'output': result.stdout
+        })
+    except subprocess.CalledProcessError as e:
+        return jsonify({
+            'success': False,
+            'error': e.stderr
+        }), 500
 
 # -------------------------------
 # 2) DOWNLOAD AND INSTALL QEMU
@@ -37,34 +50,3 @@ if not os.path.exists(qemu_path):
         subprocess.run(["sudo", "apt-get", "update"], check=True)
         subprocess.run(["sudo", "apt-get", "install", "-y", "qemu-utils"], check=True)
 print("QEMU installed.")
-
-# -------------------------------
-# 3) EXECUTE SOURCE PLATFORM SCRIPT
-# -------------------------------
-source_script = f"{source_platform}version.py"
-if os.path.exists(source_script):
-    print(f"Executing source platform script: {source_script}")
-    subprocess.run([sys.executable, source_script, variables_file], check=True)
-else:
-    raise FileNotFoundError(f"{source_script} not found!")
-
-# -------------------------------
-# 4) TRANSFORM OS DISK USING QEMU
-# -------------------------------
-output_disk_path = os.path.splitext(os_disk_path)[0] + f".{output_format}"
-print(f"Transforming {os_disk_path} -> {output_disk_path} ...")
-subprocess.run([qemu_path, "convert", "-O", output_format, os_disk_path, output_disk_path], check=True)
-print(f"Disk conversion complete: {output_disk_path}")
-
-# -------------------------------
-# 5) EXECUTE DESTINATION PLATFORM SCRIPT
-# -------------------------------
-destination_script = f"{destination_platform}version.py"
-if os.path.exists(destination_script):
-    print(f"Executing destination platform script: {destination_script}")
-    # Pass variables file and transformed disk path
-    subprocess.run([sys.executable, destination_script, variables_file, output_disk_path], check=True)
-else:
-    raise FileNotFoundError(f"{destination_script} not found!")
-
-print("Orchestration complete!")
