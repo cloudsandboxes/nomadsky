@@ -12,10 +12,10 @@ from keystoneauth1 import session
 from keystoneauth1.identity import v3
 
 def fetch_vm ():
-        """
-        Get OpenStack credentials from environment variables or user input.
-        You can download your OpenStack RC file from Cyso.cloud dashboard.
-        """
+   """
+   Get OpenStack credentials from environment variables or user input.
+   You can download your OpenStack RC file from Cyso.cloud dashboard.
+   """
    credentials = {
         'auth_url': os.environ.get('OS_AUTH_URL', 'https://identity.api.ams.fuga.cloud:443/v3'),
         'username': os.environ.get('OS_USERNAME'),
