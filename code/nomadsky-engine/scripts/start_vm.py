@@ -32,7 +32,7 @@ elif destination == 'cyso':
       # cyso SDK code to find VM
       sys.path.append(r"C:/projects/nomadsky/code/Cyso")
       import config
-      from creating_vm import create_vm_from_image
+      from starting_vm import create_vm_from_image
           
       try:
             nic = create_vm_from_image(shared_data)
