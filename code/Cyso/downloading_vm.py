@@ -124,7 +124,8 @@ def export_os_disk(vm_name):
                     if chunk:
                         f.write(chunk)
             
-            return {'message': f"Image {image_name} ready (ID: {image_id}) and downloaded to {output_path}"}
+            return {'message': f"Image {image_name} ready (ID: {image_id}) and downloaded to {output_path}",
+                   'outputpath': output_path}
             
         except (requests.exceptions.RequestException, IOError) as e:
             if attempt < 4:
