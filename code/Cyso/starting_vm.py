@@ -1,14 +1,15 @@
-def create_vm_from_image(nova, image_id, vm_name, flavor_name, network_name=None):
+def create_vm_from_image(nova, image_id, vm_name):
     import time
     
     # Get flavor by name
-    flavors = nova.flavors.list()
+    flavor_name = "s5.small"
     flavor = next((f for f in flavors if f.name == flavor_name), None)
     if not flavor:
         return False, f"Flavor {flavor_name} not found"
     
     # Get network (optional)
     nics = None
+    network_name="public"
     if network_name:
         networks = nova.neutron.list_networks()['networks']
         network = next((n for n in networks if n['name'] == network_name), None)
