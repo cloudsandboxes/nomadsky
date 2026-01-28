@@ -73,11 +73,7 @@ def create_vm_from_image(shared_data):
     # Get network (optional)
     nics = None
     network_name="public"
-    if network_name:
-        networks = nova.neutron.list_networks()['networks']
-        network = next((n for n in networks if n['name'] == network_name), None)
-        if network:
-            nics = [{'net-id': network['id']}]
+    nics = [{'net=id':"093ae4f0-caf5-49ad-9a51-7e29747b7468"}]
     
     # Create server
     server = nova.servers.create(
