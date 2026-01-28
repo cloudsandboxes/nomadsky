@@ -75,5 +75,5 @@ def stop_vm():
             if server.status == 'SUSPENDED':
                 return {'message' : f"VM {vm_name} stopped"}
             time.sleep(15)
-    else         
+    else:         
         return {'message' : f"VM {vm_name} was already stopped"}
