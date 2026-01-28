@@ -35,7 +35,7 @@ def fetch_vm ():
 
    # Step 1: Get credentials
    print("\n[1/4] Getting credentials...")
-   credentials = get_credentials()
+   
 
    """
    Create an authenticated Nova client using Keystone v3 authentication.
