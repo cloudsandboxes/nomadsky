@@ -18,7 +18,7 @@ sys.path.append(r"C:/projects/nomadsky/code/Cyso")
 #destination = sys.argv[2]
 #vmname = sys.argv[3].lower()
 import config
-vmname='ubuntu'
+vm_name='ubuntu'
 def fetch_vm ():
    """
    Get OpenStack credentials from environment variables or user input.
