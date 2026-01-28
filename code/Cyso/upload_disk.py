@@ -28,6 +28,7 @@ def uploading_disk(vm_name):
     import config
     output_path= fr"C:\Temp\osdisk-{vm_name}.qcow2"
     chunk_size = 50 * 1024 * 1024  # 50 MB per chunk
+    file_path=output_path
 
 
     from keystoneauth1.identity.v3 import ApplicationCredential
@@ -80,7 +81,7 @@ def uploading_disk(vm_name):
     chunk_size = 8192
     file_size = os.path.getsize(file_path)
     uploaded = 0
-    file_path=output_path
+   
     with open(file_path, 'rb') as f:
         glance.images.upload(image.id, f)
     
