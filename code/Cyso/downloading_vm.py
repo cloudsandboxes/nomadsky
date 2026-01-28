@@ -1,6 +1,6 @@
 
 #!/usr/bin/env python3
-def export_os_disk(nova, vm_name, image_name=None):
+def export_os_disk(vm_name):
     """
     Cyso.cloud OpenStack VM Access Script
     This script authenticates to Cyso.cloud OpenStack and downloads the image
