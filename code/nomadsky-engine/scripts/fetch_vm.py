@@ -30,7 +30,7 @@ elif source == 'cyso':
           
       try:
             result = fetch_vm()
-            raise Exception(f'something went wrong, {result} the vm is not found in Cyso Cloud!')
+            
       except IndexError:
         raise Exception('something went wrong, the vm is not found in Cyso Cloud!')  
 
