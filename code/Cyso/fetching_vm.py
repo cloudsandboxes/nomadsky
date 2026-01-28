@@ -36,20 +36,29 @@ def fetch_vm ():
    from keystoneauth1.identity.v3 import ApplicationCredential
 
    root = tk.Tk()
-   root.title("Password required")
+   root.title("Application secret required")
    root.geometry("300x120")
-   tk.Label(root, text="Enter password:").pack(pady=10)
-   password_entry = tk.Entry(root, show="*")
+   tk.Label(root, text="Enter secret:").pack(pady=10)
+   password_var = tk.StringVar()
+   done_var = tk.BooleanVar(value=False)
+
+   password_entry = tk.Entry(root, show="*", textvariable=password_var)
    password_entry.pack()
 
-   def on_submit():
-    password = password_entry.get()
-    #print("Password entered (not shown for security reasons)")
-    root.destroy()
+   tk.Button(
+     root,
+     text="OK",
+     command=lambda: done_var.set(True)
+   ).pack(pady=10)
 
-   tk.Button(root, text="OK", command=on_submit).pack(pady=10)
-   root.mainloop()
+   
+   # Wait until the button is pressed
+   root.wait_variable(done_var)
 
+   password = password_var.get()
+   root.destroy()
+
+   
    auth = ApplicationCredential(
     auth_url=os.environ.get('OS_AUTH_URL', 'https://core.fuga.cloud:5000/v3'),
     application_credential_id=config.OS_APPLICATION_CREDENTIAL_ID,
