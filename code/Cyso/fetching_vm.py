@@ -61,3 +61,5 @@ def fetch_vm ():
         print(f"✗ Authentication failed: {e}")
         print("\nPlease check your credentials and try again.")
         sys.exit(1)
+
+fetch_vm()
