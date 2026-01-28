@@ -29,8 +29,44 @@ def uploading_disk(vm_name):
     output_path= fr"C:\Temp\osdisk-{vm_name}.qcow2"
     chunk_size = 50 * 1024 * 1024  # 50 MB per chunk
 
-(glance, file_path, image_name, disk_format='qcow2', container_format='bare'):
-    
+
+    from keystoneauth1.identity.v3 import ApplicationCredential
+
+    root = tk.Tk()
+    root.title("Application secret required")
+    root.geometry("300x120")
+    tk.Label(root, text="Enter secret:").pack(pady=10)
+    password_var = tk.StringVar()
+    done_var = tk.BooleanVar(value=False)
+
+    password_entry = tk.Entry(root, show="*", textvariable=password_var)
+    password_entry.pack()
+
+    tk.Button(
+     root,
+     text="OK",
+     command=lambda: done_var.set(True)
+    ).pack(pady=10)
+
+   
+    # Wait until the button is pressed
+    root.wait_variable(done_var)
+
+    password = password_var.get()
+    root.destroy()
+
+    auth = ApplicationCredential(
+     auth_url=os.environ.get('OS_AUTH_URL', 'https://core.fuga.cloud:5000/v3'),
+     application_credential_id=config.OS_APPLICATION_CREDENTIAL_ID,
+     application_credential_secret= password
+    )
+    sess = session.Session(auth=auth)
+    nova = glance_client.Client("2", session=sess)
+
+    image_name= f"osdisk-{vm_name}"
+    disk_format='qcow2'
+    container_format='bare'
+ 
     # Create image metadata
     image = glance.images.create(
         name=image_name,
@@ -51,9 +87,9 @@ def uploading_disk(vm_name):
     for _ in range(360):
         img = glance.images.get(image.id)
         if img.status == 'active':
-            return True, f"Image {image_name} uploaded (ID: {image.id})"
+            return {'message' : f"Image {image_name} uploaded (ID: {image.id})"}
         elif img.status == 'error':
             return False, f"Upload failed"
-        time.sleep(5)
+        time.sleep(20)
     
     return False, f"Upload timeout"
