@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-def create_vm_from_image(image_id, vm_name):
+def create_vm_from_image(shared_data):
     """
     Cyso.cloud OpenStack VM Access Script
     This script authenticates to Cyso.cloud OpenStack and downloads the image
@@ -25,6 +25,10 @@ def create_vm_from_image(image_id, vm_name):
     vm_name = sys.argv[3].lower()
     vmname=f"{vm_name}-new"
     import config
+    shared_data_json = sys.argv[4]  # 4th argument
+    shared_data = json.loads(shared_data_json)
+    # Extract specific value
+    image_id = shared_data.get('image_id', '')
 
     from keystoneauth1.identity.v3 import ApplicationCredential
 
