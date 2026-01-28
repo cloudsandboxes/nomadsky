@@ -1,6 +1,35 @@
-def upload_disk(glance, file_path, image_name, disk_format='qcow2', container_format='bare'):
+#!/usr/bin/env python3
+def uploading_disk(vm_name):
+    """
+    Cyso.cloud OpenStack VM Access Script
+    This script authenticates to Cyso.cloud OpenStack and downloads the image
+    """
+    
     import os
+    import sys
+    import webbrowser
+    from novaclient import client as nova_client
+    from glanceclient import client as glance_client
+    from keystoneauth1 import session
+    from keystoneauth1.identity import v3
+    import getpass
+    import json
+    sys.path.append(r"C:/projects/nomadsky/code/Cyso")
+    import tkinter as tk
+    from tkinter import simpledialog
     import time
+    import requests
+    from requests.exceptions import ConnectionError, ChunkedEncodingError
+
+    # Get arguments
+    source = sys.argv[1]
+    destination = sys.argv[2]
+    vm_name = sys.argv[3].lower()
+    import config
+    output_path= fr"C:\Temp\osdisk-{vm_name}.qcow2"
+    chunk_size = 50 * 1024 * 1024  # 50 MB per chunk
+
+(glance, file_path, image_name, disk_format='qcow2', container_format='bare'):
     
     # Create image metadata
     image = glance.images.create(
