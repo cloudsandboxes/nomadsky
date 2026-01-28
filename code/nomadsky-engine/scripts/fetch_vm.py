@@ -24,10 +24,9 @@ if source == 'azure':
 
 elif source == 'cyso':
       # cyso openstack SDK code to find VM
-      sys.path.append(r"C:/projects/nomadsky/code/Cyso")
+      sys.path.append(r"C:/projects/nomadsky/code/Microsoft")
       import config
       from fetching_vm import fetch_vm
-          
       try:
             result = fetch_vm()
             
