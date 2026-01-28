@@ -10,7 +10,7 @@ def export_os_disk(vm_name):
     import sys
     import webbrowser
     from novaclient import client as nova_client
-    from glanceclient import client
+    from glanceclient import client as glance_client
     from keystoneauth1 import session
     from keystoneauth1.identity import v3
     import getpass
@@ -68,6 +68,15 @@ def export_os_disk(vm_name):
         return False, "VM not found"
     
     server = servers[0]
+
+    #login to other provider
+    auth2 = ApplicationCredential(
+     auth_url=os.environ.get('OS_AUTH_URL', 'https://core.fuga.cloud:9292'),
+     application_credential_id=config.OS_APPLICATION_CREDENTIAL_ID,
+     application_credential_secret= password
+    )
+    sess2 = session.Session(auth=auth2)
+    glance = glance_client.Client("2", session=sess2)
     
     # Create snapshot/image of the VM
     image_name = f"{vm_name}_snapshot_{int(__import__('time').time())}"
