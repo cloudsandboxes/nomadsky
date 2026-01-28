@@ -15,9 +15,11 @@ def fetch_vm ():
    """
    Get OpenStack credentials from environment variables or user input.
    You can download your OpenStack RC file from Cyso.cloud dashboard.
+   https://core.fuga.cloud:5000/v3
+   https://identity.api.ams.fuga.cloud:443/v3
    """
    credentials = {
-        'auth_url': os.environ.get('OS_AUTH_URL', 'https://identity.api.ams.fuga.cloud:443/v3'),
+        'auth_url': os.environ.get('OS_AUTH_URL', 'https://core.fuga.cloud:5000/v3'),
         'username': os.environ.get('OS_USERNAME'),
         'password': os.environ.get('OS_PASSWORD'),
         'project_name': os.environ.get('OS_PROJECT_NAME'),
