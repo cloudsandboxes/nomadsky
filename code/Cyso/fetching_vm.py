@@ -54,12 +54,10 @@ def fetch_vm ():
 
 
    print("\n[2/4] Authenticating to OpenStack...")
-   try:
-     nova = create_nova_client(credentials)
+try:
+     nova = fetch_vm()
      print("✓ Authentication successful!")
-   except Exception as e:
+except Exception as e:
         print(f"✗ Authentication failed: {e}")
         print("\nPlease check your credentials and try again.")
         sys.exit(1)
-
-fetch_vm()
