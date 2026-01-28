@@ -81,11 +81,12 @@ def fetch_vm ():
         'message': f"VM '{vm_name}' found successfully in {source}!",
         'id': server.id,
         'name': server.name,
-        'status': server.status,
-        'flavor': server.flavor.id,
-        'image': server.image.id
-    }
+        'status': server.status
+            }
    #'networks': server.networks
    #'created': server.created
+   #'flavor': server.flavor,
+   #'image': server.image
+
    return result 
 
