@@ -106,7 +106,7 @@ def download_vm(shared_data):
               result = {
                   'message': f"VM '{vmname}' successfully downloaded from '{source}'!",
                   'exportdisktype' : exportdisktype,
-                  'output_vhd_path' : output_vhd_path,
+                  'output_path' : output_vhd_path,
                   }
               return result
 
