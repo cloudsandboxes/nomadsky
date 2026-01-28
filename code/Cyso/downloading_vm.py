@@ -19,6 +19,7 @@ def export_os_disk(vm_name):
     import tkinter as tk
     from tkinter import simpledialog
     import time
+    import requests
 
     # Get arguments
     source = sys.argv[1]
