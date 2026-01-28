@@ -33,7 +33,7 @@ def fetch_vm ():
     
    auth = ApplicationCredential(
         'auth_url': os.environ.get('OS_AUTH_URL', 'https://core.fuga.cloud:5000/v3'),
-        'application_credential_id': config.OS_APPLICATION_CREDENTIAL_ID',
+        'application_credential_id': config.OS_APPLICATION_CREDENTIAL_ID,
         'application_credential_secret': os.environ.get('OS_APPLICATION_CREDENTIAL_SECRET') or getpass.getpass("Enter your app credntial secret: "),
     )
    sess = session.Session(auth=auth)
