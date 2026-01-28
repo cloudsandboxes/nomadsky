@@ -17,6 +17,7 @@ def stop_vm():
     sys.path.append(r"C:/projects/nomadsky/code/Cyso")
     import tkinter as tk
     from tkinter import simpledialog
+    import time
 
 
     # Get arguments
