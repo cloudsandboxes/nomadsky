@@ -80,7 +80,7 @@ def export_os_disk(vm_name):
             return False, f"Image creation failed"
         time.sleep(20)
 
-
+""""
     
 def download_image(image_id, output_path, disk_format='qcow2', chunk_size=8192):
     from keystoneauth1 import session
@@ -117,6 +117,8 @@ def download_image(image_id, output_path, disk_format='qcow2', chunk_size=8192):
             
             response = requests.get(url, headers=headers, stream=True, timeout=30)
             response.raise_for_status()
+
+            """
             
             mode = 'ab' if resume_pos > 0 else 'wb'
             with open(output_path, mode) as f:
