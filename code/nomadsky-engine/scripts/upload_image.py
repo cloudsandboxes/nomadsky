@@ -27,11 +27,30 @@ if destination == 'azure':
             print(json.dumps(url))
       except IndexError:
         raise Exception(f" Invalid resource ID format: '{shared_data}' ")
-   
+
+elif destination == 'cyso':
+      # cyso SDK code to find VM
+      sys.path.append(r"C:/projects/nomadsky/code/Cyso")
+      import config
+      from upload_disk import uploading_disk
+          
+      try:
+            url = uploading_disk(shared_data)
+            #result = {
+            #'message': f"the diskfile is succesfully transfered to '{destination}' at the '{url}'",
+            #'disk_url' : url
+            # }
+            print(json.dumps(url))
+      except IndexError:
+        raise Exception(f" Invalid resource ID format: '{shared_data}' ")
+
+
 elif destination == 'aws':
    a='empty'
    #     # AWS boto3 code to find VM
    # etc.
+
+
 
 
 
