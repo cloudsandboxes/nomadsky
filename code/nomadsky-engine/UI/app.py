@@ -30,3 +30,4 @@ py -m pip install boto3
 # running openstack
 
 py -m pip install python-novaclient
+py -m pip install python-glanceclient
