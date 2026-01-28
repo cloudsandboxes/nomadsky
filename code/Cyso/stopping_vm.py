@@ -20,11 +20,10 @@ def stop_vm():
 
 
     # Get arguments
-    #source = sys.argv[1]
-    #destination = sys.argv[2]
-    #vmname = sys.argv[3].lower()
+    source = sys.argv[1]
+    destination = sys.argv[2]
+    vm_name = sys.argv[3].lower()
     import config
-    vm_name='ubuntu'
    
     # Step 1: Get credentials
     print("\n[1/4] Getting credentials...")
