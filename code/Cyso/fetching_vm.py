@@ -14,11 +14,11 @@ import getpass
 import json
 sys.path.append(r"C:/projects/nomadsky/code/Cyso")
 # Get arguments
-source = sys.argv[1]
-destination = sys.argv[2]
-vmname = sys.argv[3].lower()
+#source = sys.argv[1]
+#destination = sys.argv[2]
+#vmname = sys.argv[3].lower()
 import config
-
+vmname='ubuntu'
 def fetch_vm ():
    """
    Get OpenStack credentials from environment variables or user input.
