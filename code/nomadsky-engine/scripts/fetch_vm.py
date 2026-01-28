@@ -101,8 +101,7 @@ data = {
 # Send as custom log
 logger.info(data)
 
-
- raise Exception(f'something went wrong, {result}!') 
+raise Exception(f'something went wrong, {result}!') 
 
 
 
