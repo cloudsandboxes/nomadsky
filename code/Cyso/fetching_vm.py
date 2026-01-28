@@ -77,13 +77,16 @@ def fetch_vm ():
    server = servers[0]
     
    # Get all properties
-   return {
+   result = {
+        'message': f"VM '{vm_name}' found successfully in {source}!",
         'id': server.id,
         'name': server.name,
         'status': server.status,
         'flavor': server.flavor,
         'image': server.image,
         'networks': server.networks,
-        'created': server.created,
+        'created': server.created
     }
+   
+   return result 
 
