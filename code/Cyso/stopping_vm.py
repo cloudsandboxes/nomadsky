@@ -68,8 +68,9 @@ def stop_vm():
     
     server = servers[0]
     #server.stop()  # Graceful shutdown
-    server = conn.compute.get_server(server.id)
-    conn.compute.stop_server(server)
-    conn.compute.wait_for_server(server, status='SHUTOFF')
-    
-    return {'message' : f"VM {vm_name} stopped"}
+
+    for _ in range(30):
+        server = nova.servers.get(server.id)
+        if server.status == 'SHUTOFF':
+            return {'message' : f"VM {vm_name} stopped"}
+        time.sleep(15)
