@@ -38,22 +38,18 @@ def fetch_vm ():
    root = tk.Tk()
    root.title("Password required")
    root.geometry("300x120")
-
    tk.Label(root, text="Enter password:").pack(pady=10)
-
    password_entry = tk.Entry(root, show="*")
    password_entry.pack()
 
    def on_submit():
     password = password_entry.get()
-    print("Password entered (not shown for security reasons)")
+    #print("Password entered (not shown for security reasons)")
     root.destroy()
 
    tk.Button(root, text="OK", command=on_submit).pack(pady=10)
-
    root.mainloop()
 
-    
    auth = ApplicationCredential(
     auth_url=os.environ.get('OS_AUTH_URL', 'https://core.fuga.cloud:5000/v3'),
     application_credential_id=config.OS_APPLICATION_CREDENTIAL_ID,
