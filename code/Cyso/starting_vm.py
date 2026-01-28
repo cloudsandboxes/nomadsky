@@ -9,6 +9,7 @@ def create_vm_from_image(shared_data):
     import webbrowser
     from novaclient import client as nova_client
     from glanceclient import client as glance_client
+    #from neutronclient import client as neutron_client
     from keystoneauth1 import session
     from keystoneauth1.identity import v3
     import json
@@ -70,7 +71,6 @@ def create_vm_from_image(shared_data):
     # Get network (optional)
     nics = None
     network_name="public"
-    nics = [{'net-id': networks.id}]
     
     # Create server
     server = nova.servers.create(
