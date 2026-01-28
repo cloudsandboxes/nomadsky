@@ -52,18 +52,20 @@ def fetch_vm ():
    sess = session.Session(auth=auth)
    nova = nova_client.Client("2.1", session=sess)
 
-
-   print("\n[2/4] Authenticating to OpenStack...")
-   try:
-        servers = nova.servers.list()
-        return True, f"Success! Found {len(servers)} VMs"
-   except Exception as e:
-        return False, str(e)
+   return nova
+   #print("\n[2/4] Authenticating to OpenStack...")
+   #try:
+   #     servers = nova.servers.list()
+   #     return True, f"Success! Found {len(servers)} VMs"
+   #except Exception as e:
+   #     return False, str(e)
 
 
 try:
      nova = fetch_vm()
+     servers = nova.servers.list()
      print("✓ Authentication successful!")
+     print (f"Success! Found {len(servers)} VMs")
 except Exception as e:
         print(f"✗ Authentication failed: {e}")
         print("\nPlease check your credentials and try again.")
