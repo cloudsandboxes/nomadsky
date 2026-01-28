@@ -20,7 +20,7 @@ def export_os_disk(vm_name):
     from tkinter import simpledialog
     import time
     import requests
-    from requests.exceptions import ConnectionError, ChunkedEncodingError, IOError
+    from requests.exceptions import ConnectionError, ChunkedEncodingError
 
     # Get arguments
     source = sys.argv[1]
@@ -123,3 +123,12 @@ def export_os_disk(vm_name):
                 time.sleep(2 ** attempt)  # Exponential backoff
                 continue
             return False, f"Download failed after 5 attempts: {e}"
+
+
+
+#except (requests.ConnectionError, requests.exceptions.ChunkedEncodingError) as e:
+#                       #print(f"\nConnection error, retrying... ({e})")
+#                       sleep(5)  # wait a few seconds
+#                       max_retries -= 1
+#                       if max_retries <= 0:
+#                           raise Exception("Max retries exceeded")
