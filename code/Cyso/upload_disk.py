@@ -61,7 +61,7 @@ def uploading_disk(vm_name):
      application_credential_secret= password
     )
     sess = session.Session(auth=auth)
-    nova = glance_client.Client("2", session=sess)
+    glance = glance_client.Client("2", session=sess)
 
     image_name= f"osdisk-{vm_name}"
     disk_format='qcow2'
