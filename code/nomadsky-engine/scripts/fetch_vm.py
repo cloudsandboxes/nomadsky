@@ -28,7 +28,7 @@ elif source == 'cyso':
       import config
       from fetching_vm import fetch_vm
       try:
-            result = fetch_vm()
+            result = fetch_vm(vmname)
             
       except IndexError:
         raise Exception('something went wrong, the vm is not found in Cyso Cloud!')  
