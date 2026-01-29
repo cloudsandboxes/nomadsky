@@ -41,8 +41,8 @@ def download_vm(shared_data):
         output_path = fr"C:\Temp\osdisk-{vmname}.vhd"
         exportdisktype = shared_data.get('exportdisktype', '')
 
-        if os.path.exists(output_vhd_path):
-               #file_size_gb = os.path.getsize(output_vhd_path) / (1024**3) 
+        if os.path.exists(output_path):
+               #file_size_gb = os.path.getsize(output_path) / (1024**3) 
                result = {
                   'message': f"VM {vmname} already downloaded from {source}!",
                   'exportdisktype' : exportdisktype,
@@ -80,7 +80,7 @@ def download_vm(shared_data):
               max_retries = 200
 
               # Resume if file exists
-              start_byte = os.path.getsize(output_vhd_path) if os.path.exists(output_vhd_path) else 0
+              start_byte = os.path.getsize(output_path) if os.path.exists(output_path) else 0
 
               while True:
                     headers = {"Range": f"bytes={start_byte}-"}
@@ -149,6 +149,6 @@ else:
 
 print(json.dumps(result))
 
-# 'output_vdh': output_vhd_path,
+# 'output_vdh': output_path,
 #      'filesize' : file_size_gb
 """
