@@ -11,9 +11,11 @@ if not os.path.exists(qemu_path):
     print("Downloading and installing QEMU...")
     if os.name == "nt":
         # Windows download link example (adjust version)
-        download_path = "C:/program/qemu/qemu-setup.exe"
-        qemu_installer = "https://qemu.weilnetz.de/w64/qemu-w64-setup-2023-07-26.exe"
+        # Option 2: Download latest from official source
+        download_path = "C:/temp/qemu-setup.exe"
+        qemu_installer = "https://qemu.weilnetz.de/w64/qemu-w64-setup-20240423.exe"
         subprocess.run(["curl", "-L", "-o", download_path, qemu_installer], check=True)
+        print ("i work tilll here")
         subprocess.run(["start", "/wait", download_path, "/S"], check=True)
         #qemu_installer = "https://qemu.weilnetz.de/w64/qemu-w64-setup-2023-07-26.exe"
         #subprocess.run(["curl", "-L", "-o", "qemu-setup.exe", qemu_installer], check=True)
