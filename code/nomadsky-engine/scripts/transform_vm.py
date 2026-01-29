@@ -25,7 +25,14 @@ if exportdisktype == importdisktype:
              }
 else:
             #do qemu to convert the current disk(export) to the outputformat (importdisktype).
-            
+            #add extra logic for qemu vhd= vpc
+            #for cyso  import vhd=raw
+        
+
+
+        
+            if importdisktype == "vhd"
+                importdisktype == "vpc"
             subprocess.run([qemu_path, "convert", "-O", importdisktype, input_path, output_path], check=True)
 
             #subprocess.run([qemu_path, "convert", "-O", importdisktype, output_path, output_disk_path], check=True)
