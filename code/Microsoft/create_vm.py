@@ -20,7 +20,7 @@ def start_vm (shared_data):
   vm_size = shared_data.get('vm_size', '')
   storage_id = shared_data.get('storage_id', '')
   disktype = shared_data.get('importdisktype', '')
-  blob_name = f"osdisk.{disktype}"
+  blob_name = f"osdisk{vm_name}.{disktype}"
   disk_name = f"disk-name-mooi-{vm_name}"
   vhd_url = account_url + "/" + config.container_name + "/" + blob_name
   
