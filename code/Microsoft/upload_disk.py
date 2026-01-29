@@ -17,7 +17,8 @@ def upload_disk(shared_data):
     location = config.location 
     container_name = config.container_name
     vhd_path = shared_data.get('output_path', '')
-    blob_name = config.blob_name
+    disktype = shared_data.get('importdisktype', '')
+    blob_name = f"osdisk.{disktype}"
     account_url = f"https://{storage_account_name}.blob.core.windows.net"
 
     tenant_id = config.destionationtenantid
