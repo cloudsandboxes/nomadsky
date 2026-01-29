@@ -18,6 +18,7 @@ input_path = shared_data.get('output_path', '')
 unique_id = sys.argv[5]
 qemu_path = r"C:\Program Files\qemu\qemu-img.exe"
 output_path = fr"C:\temp\osdisk-{vmname}.{importdisktype}"
+subformat="subformat=dynamic"
 
 if exportdisktype == importdisktype:
         result = {
@@ -25,7 +26,7 @@ if exportdisktype == importdisktype:
              }
 else:
             #do qemu to convert the current disk(export) to the outputformat (importdisktype).
-            #add extra logic for qemu vhd= vpc
+            #add extra logic for qemu vhd= vpc  subformat=fixed
             #for cyso  import vhd=raw
         
 
@@ -33,7 +34,8 @@ else:
         
             if importdisktype == "vhd":
                 importdisktype = "vpc"
-            subprocess.run([qemu_path, "convert", "-O", importdisktype, input_path, output_path], check=True)
+                subformat = "subformat=fixed"   
+            subprocess.run([qemu_path, "convert", "-O", subformat, importdisktype, input_path, output_path], check=True)
 
             #subprocess.run([qemu_path, "convert", "-O", importdisktype, output_path, output_disk_path], check=True)
             #(result add = new_diskpath = output_disk_path)
