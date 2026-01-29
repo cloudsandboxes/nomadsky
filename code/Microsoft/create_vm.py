@@ -15,14 +15,14 @@ def start_vm (shared_data):
   vm_name = shared_data.get('vm_name', '')
   location = config.location
   account_url = shared_data.get('account_url', '')
-  vhd_url = account_url + "/" + config.container_name + "/" + config.blob_name
   nic_id = shared_data.get('nic_id', '')
   os_type = shared_data.get('os_type', '')
   vm_size = shared_data.get('vm_size', '')
   storage_id = shared_data.get('storage_id', '')
+  disktype = shared_data.get('importdisktype', '')
+  blob_name = f"osdisk.{disktype}"
   disk_name = f"disk-name-mooi-{vm_name}"
-  
-  
+  vhd_url = account_url + "/" + config.container_name + "/" + blob_name
   
 
   #vhd_url = 'https://compliceert20.blob.core.windows.net/vhds/osdisk.vhd'
