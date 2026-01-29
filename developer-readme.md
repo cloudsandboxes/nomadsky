@@ -158,4 +158,39 @@ def example_function(
 
 
 
+                   .--------------------------.
+                  /                          /|
+                 '         Nomadsky         / |
+                +--------------------------+  |
+                |           engine         |  +
+                |                          | /
+                '--------------------------'  
+                  ^                    |
+                  |                    |
+                  |1) Download image   | 1) upload image
+                  |                    |
+                  |                    V
+            .---------.             .---------.
+          /          /|            /          /|
+         '    VM 1  / |           '    VM 2  / |
+        +----------+  |          +----------+  |
+        |          |  +          |          |  +
+        |          | /           |          | /
+        '----------'             '----------'
+
+
+### Step 1: Download image.
+The code for this step is in folder named "Download images", and it depends on the vendor you are migrating from. 
+
+### Step 2: upload image.
+The code for this step is in folder named "upload images", and it depends on the vendor you are migrating to.
+
+### Nomadsky engine
+The code for the nomadsky engine is based on different features, which could be run like independent modules. 
+1) Ground level code execution
+2) transformation between VHD  or VMDK OS-format.
+
+
+
+
 
