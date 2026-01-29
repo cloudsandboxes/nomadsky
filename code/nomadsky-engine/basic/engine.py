@@ -2,12 +2,11 @@ import os
 import subprocess
 import sys
 
-
 # -------------------------------
 # 1) DOWNLOAD AND INSTALL QEMU
 # -------------------------------
 # Only download if not present
-qemu_path = r"C:\Program Files\qemu\qemu-img.exe" if os.name == "nt" else "/usr/bin/qemu-img"
+qemu_path = r"C:\Program Files\qemu\qemu-img.exe"
 if not os.path.exists(qemu_path):
     print("Downloading and installing QEMU...")
     if os.name == "nt":
