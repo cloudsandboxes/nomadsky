@@ -6,7 +6,6 @@ importdisktype = ("vhd")
 storage_account_name = "compliceert20"
 location = "westeurope"
 container_name = "vhds"
-blob_name = "osdisk.vhd"
 subscription_id = "41aff5e1-41c9-4509-9fcb-d761d7f33740"
 resource_group = "output"
 destionationtenantid = "78ba35ee-470e-4a16-ba92-ad53510ad7f6"
