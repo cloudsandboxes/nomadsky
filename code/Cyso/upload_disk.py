@@ -73,6 +73,8 @@ def uploading_disk(vm_name):
     image_name= f"osdisk-{vm_name}"
     disk_format=disktype
     container_format='bare'
+    if source == "azure":
+        disk_format="raw"
  
     # Create image metadata
     image = glance.images.create(
