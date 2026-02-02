@@ -29,10 +29,18 @@ elif source == 'cyso':
       from fetching_vm import fetch_vm
       try:
             result = fetch_vm(vmname)
-            
-            
       except IndexError:
         raise Exception('something went wrong, the vm is not found in Cyso Cloud!')  
+
+elif source == 'leaf':
+      # leaf openstack SDK code to find VM
+      sys.path.append(r"C:/projects/nomadsky/code/Leafcloud")
+      import config
+      from fetching_vm import fetch_vm
+      try:
+            result = fetch_vm(vmname)
+      except IndexError:
+        raise Exception('something went wrong, the vm is not found in Leaf.Cloud!')  
 
 elif source == 'aws':
       # Amazon SDK code to find VM
