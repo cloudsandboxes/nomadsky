@@ -65,7 +65,7 @@ def stop_vm():
     # Find VM by name
     servers = nova.servers.list(search_opts={'name': vm_name})
     if not servers:
-        return False, "VM not found"
+        raise IndexError(f"VM '{vmname}' not found in {source}")
     
     server = servers[0]
     if server.status != "SUSPENDED":
