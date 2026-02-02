@@ -87,17 +87,9 @@ def find_best_format(source_platform, destination_platform):
     # Fallback: first export + first import
     return source_exports[0], destination_imports[0]
 
-
-try:
-    raise Exception(f"preferred_type value: {general_parameters.preferred_type["leaf"]["export"]}")
-except ImportError as e:
-    print(f"Import failed: {e}")
-except AttributeError as e:
-    print(f"Attribute not found: {e}")
-
-#exportdisktype,importdisktype = find_best_format(source,destination)
-#result["exportdisktype"]= exportdisktype
-#result["importdisktype"]= importdisktype 
+exportdisktype,importdisktype = find_best_format(source,destination)
+result["exportdisktype"]= exportdisktype
+result["importdisktype"]= importdisktype 
 print(json.dumps(result)) 
 
 #---------------------
