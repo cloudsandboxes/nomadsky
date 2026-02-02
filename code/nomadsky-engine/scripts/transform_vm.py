@@ -28,7 +28,7 @@ if exportdisktype == importdisktype:
              'message': f"the diskfile type is already '{importdisktype}' so no need to transform type!", 
              }
 else:
-            #do qemu to convert the current disk(export) to the outputformat (importdisktype).
+            #Do qemu to convert the current disk(export) to the outputformat (importdisktype).
             if importdisktype == "vhd":
                 importdisktype = "vpc"
                 subformat = "subformat=fixed"  
@@ -40,12 +40,14 @@ else:
                         'output_path' : output_path
                         }
             else: 
-              
+                raise Exception(f"the tool QEMU is not found. you should install QEMU manually at the following path: {qemu_path}!')
 
-
+print(json.dumps(result))
         
                             
-            
+
+
+            ### For Azure the file format should be a real number in MB. For now Qemu the resize does not work, please help. 
             #if destination == "azure":
             #        ossize= os.path.getsize(output_path)
             #        newsize = math.ceil(ossize/ (1024 * 1024))
@@ -53,12 +55,6 @@ else:
             #        #f"{newsize}M"
         
             #subprocess.run([qemu_path, "convert", "-O", importdisktype, output_path, output_disk_path], check=True)
-            #(result add = new_diskpath = output_disk_path)
-            result = {
-             'message': f"the import diskfile type is different '{importdisktype}' to the export type '{exportdisktype}', so need to transform!",
-             'output_path' : output_path
-             }
-print(json.dumps(result))
 
 
 
