@@ -78,7 +78,7 @@ def create_vm_from_image(shared_data):
         if srv.status == 'ACTIVE':
             return {'message': f"VM {vm_name} created (ID: {server.id})"}
         elif srv.status == 'ERROR':
-            return False, f"VM creation failed"
+            raise IndexError(f"VM '{vmname}' cration timeout in {destination}")
         time.sleep(20)
     
-    return False, f"VM creation timeout"
+    raise IndexError(f"VM '{vmname}' cration timeout in {destination}") 
