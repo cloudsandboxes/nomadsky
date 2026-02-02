@@ -86,6 +86,15 @@ def find_best_format(source_platform, destination_platform):
     # Fallback: first export + first import
     return source_exports[0], destination_imports[0]
 
+
+path = r"C:/projects/nomadsky/code/nomadsky-engine/scripts/general_parameters.py"
+print(f"File exists: {os.path.exists(path)}")
+try:
+    import general_parameters
+    print(f"Module imported: {general_parameters}")
+    print(f"Module file location: {general_parameters.__file__}")
+    print(f"preferred_type value: {general_parameters.preferred_type}")
+
 exportdisktype,importdisktype = find_best_format(source,destination)
 result["exportdisktype"]= exportdisktype
 result["importdisktype"]= importdisktype 
