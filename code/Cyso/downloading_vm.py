@@ -76,7 +76,7 @@ def export_os_disk(vm_name):
     # Find VM by name
     servers = nova.servers.list(search_opts={'name': vm_name})
     if not servers:
-        return False, "VM not found"
+        raise IndexError(f"VM '{vmname}' not found {source}")
     
     server = servers[0]
 
