@@ -55,7 +55,7 @@ def stop_vm():
     root.destroy()
 
     auth = ApplicationCredential(
-     auth_url=os.environ.get('OS_AUTH_URL', 'https://core.fuga.cloud:5000/v3'),
+     auth_url=os.environ.get('OS_AUTH_URL', config.sourcecloudurl),
      application_credential_id=config.OS_APPLICATION_CREDENTIAL_ID,
      application_credential_secret= password
     )
