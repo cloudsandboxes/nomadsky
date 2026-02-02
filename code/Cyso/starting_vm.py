@@ -66,18 +66,12 @@ def create_vm_from_image(shared_data):
     sess = session.Session(auth=auth)
     nova = nova_client.Client("2.1", session=sess)
         
-    # Get flavor by name
-    
-    # Get network (optional)
-    nics = [{"net-id": "496c99b9-4ae0-4cde-b648-d7412832b81b"}]
-    network_name="public"
-    
     # Create server
     server = nova.servers.create(
         name=vm_name,
         image=image_id,
         flavor="3bc4833f-dc05-4633-a6b1-8c764c4ce857",
-        nics=nics
+        nics=config.nics
     )
     
     # Wait for VM to become active (check every 5 seconds, max 10 minutes)
