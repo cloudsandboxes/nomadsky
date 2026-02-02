@@ -89,7 +89,7 @@ def find_best_format(source_platform, destination_platform):
 
 
 try:
-    raise Exception(f"preferred_type value: {general_parameters.preferred_type[leaf]["export"]}")
+    raise Exception(f"preferred_type value: {general_parameters.preferred_type["leaf"]["export"]}")
 except ImportError as e:
     print(f"Import failed: {e}")
 except AttributeError as e:
