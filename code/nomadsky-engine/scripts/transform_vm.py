@@ -40,7 +40,7 @@ else:
                         'output_path' : output_path
                         }
             else: 
-                raise Exception(f"the tool QEMU is not found. you should install QEMU manually at the following path: {qemu_path}!')
+                raise Exception(f"the tool QEMU is not found. you should install QEMU manually at the following path: {qemu_path}!")
 
 print(json.dumps(result))
         
