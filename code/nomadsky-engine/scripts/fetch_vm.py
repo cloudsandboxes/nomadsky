@@ -73,7 +73,7 @@ else:
 # ------
 
 sys.path.append(r"C:/projects/nomadsky/code/nomadsky-engine/scripts")
-from general_parameters import preferred_type
+import general_parameters 
 
 def find_best_format(source_platform, destination_platform):
     source_exports = general_parameters.preferred_type[source_platform]["export"]
