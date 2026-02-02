@@ -71,7 +71,7 @@ else:
 #Find optimal disktypeformat
 # ------
 
-sys.path.append(r"C:/projects/nomadsky/code/Vendor_Agnostic")
+#sys.path.append(r"C:/projects/nomadsky/code/Vendor_Agnostic")
 from general_parameters import preferred_type
 
 def find_best_format(source_platform, destination_platform):
