@@ -36,6 +36,18 @@ elif source == 'cyso':
             print(json.dumps(result))
       except IndexError:
         raise Exception(f" Invalid resource ID format: '{shared_data}' ")
+
+elif source == 'leaf':
+      # leaf SDK code to stop VM
+      sys.path.append(r"C:/projects/nomadsky/code/Leafcloud")
+      import config
+      from stopping_vm import stop_vm
+          
+      try:
+            result = stop_vm()
+            print(json.dumps(result))
+      except IndexError:
+        raise Exception(f" Invalid resource ID format: '{shared_data}' ")
    
 elif source == 'aws':
       # AWS SDK code to stop VM
