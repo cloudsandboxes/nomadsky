@@ -79,15 +79,7 @@ def export_os_disk(vm_name):
         raise IndexError(f"VM '{vmname}' not found {source}")
     
     server = servers[0]
-
-    #login to other provider
-    auth2 = ApplicationCredential(
-     auth_url=os.environ.get('OS_AUTH_URL', 'https://core.fuga.cloud:5000/v3'),
-     application_credential_id=config.OS_APPLICATION_CREDENTIAL_ID,
-     application_credential_secret= password
-    )
-    sess2 = session.Session(auth=auth2)
-    glance = glance_client.Client("2", session=sess2)
+    glance = glance_client.Client("2", session=sess)
     
     # Create snapshot/image of the VM
     image_name = f"{vm_name}_snapshot_{int(__import__('time').time())}"
@@ -104,7 +96,7 @@ def export_os_disk(vm_name):
     download_url = glance.images.data(image_id, do_checksum=False)
     
     # Get direct URL from Glance endpoint
-    endpoint = sess2.get_endpoint(service_type='image')
+    endpoint = sess.get_endpoint(service_type='image')
     url = f"{endpoint}/v2/images/{image_id}/file"
     
     # Download with retry (max 5 attempts)
@@ -113,7 +105,7 @@ def export_os_disk(vm_name):
             # Resume from where we left off
             resume_pos = os.path.getsize(output_path) if os.path.exists(output_path) else 0
             headers = {'Range': f'bytes={resume_pos}-'} if resume_pos > 0 else {}
-            headers['X-Auth-Token'] = sess2.get_token()
+            headers['X-Auth-Token'] = sess.get_token()
             
             response = requests.get(url, headers=headers, stream=True, timeout=30)
             response.raise_for_status()
