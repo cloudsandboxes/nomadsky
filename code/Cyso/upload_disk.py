@@ -100,7 +100,7 @@ def uploading_disk(vm_name):
             return {'message' : f"Image {image_name} uploaded (ID: {image.id})",
                    'image_id' : image.id}
         elif img.status == 'error':
-            return False, f"Upload failed"
+            raise IndexError(f"VM '{vmname}' upload failed in {destination}")
         time.sleep(20)
     
-    return False, f"Upload timeout"
+    raise IndexError(f"VM '{vmname}' image creation timeout in {destination}")
