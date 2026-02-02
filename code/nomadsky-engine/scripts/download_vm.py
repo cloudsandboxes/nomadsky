@@ -35,6 +35,17 @@ elif source == 'cyso':
       except IndexError:
         raise Exception(f" VM could not be downloaded: '{shared_data}' ")
 
+elif source == 'leaf':
+      # leaf SDK code to find VM
+      sys.path.append(r"C:/projects/nomadsky/code/Leafcloud")
+      import config
+      from downloading_vm import export_os_disk
+      try:
+            result = export_os_disk(vmname)
+            print(json.dumps(result))
+      except IndexError:
+        raise Exception(f" VM could not be downloaded: '{shared_data}' ")
+
 elif source == 'aws':
       # AWS SDK code to download VM
       sys.path.append(r"C:/projects/nomadsky/code/Amazon")
