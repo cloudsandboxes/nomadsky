@@ -69,7 +69,7 @@ def fetch_vm (vmname):
    servers = nova.servers.list(search_opts={'name': vm_name})
     
    if not servers:
-        return None
+        raise IndexError(f"VM '{vmname}' not found {source}")
     
    # Return first match (names can be duplicate)
    server = servers[0]
