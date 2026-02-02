@@ -34,7 +34,12 @@ elif destination == 'cyso':
          result = {
              'message': "no need to create anything"  }
          print(json.dumps(result))
-       
+elif destination == 'leaf':
+         result = {
+             'message': "no need to create anything"  }
+         print(json.dumps(result))
+
+
 elif destination == 'aws':
    a='empty'
    #     # AWS boto3 code to find VM
