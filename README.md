@@ -1,6 +1,6 @@
 # Nomadsky Digital Sovereignty
 
-## Stay Digitally Sovereign. Move Your Server Workloads to any cloudprovider.
+## Migrate your server workloads to any cloudprovider.
 
 Take full control over where your applications run. No vendor lock-in. No friction. Complete oversight of location, costs, and compliance — from Azure to ZeroCloud and everything in between.
 Check our demo, [here](https://htmlpreview.github.io/?https://github.com/cloudsandboxes/nomadsky/blob/main/code/nomadsky-engine/UI/demo/interface.html)
