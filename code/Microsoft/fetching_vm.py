@@ -68,7 +68,7 @@ def fetch_vm(vmname):
                      continue
         
         if not vm_found:
-            raise Exception(f"VM '{vmname}' not found in {source}")
+            raise IndexError(f"VM '{vmname}' not found {source}")
         else:
             # Output success message (Flask will capture this)
             # print(f"VM '{vmname}' found successfully in {source}! with resource_id = {resource_id}")
