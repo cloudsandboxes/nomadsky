@@ -94,6 +94,10 @@ try:
     print(f"Module imported: {general_parameters}")
     print(f"Module file location: {general_parameters.__file__}")
     print(f"preferred_type value: {general_parameters.preferred_type}")
+except ImportError as e:
+    print(f"Import failed: {e}")
+except AttributeError as e:
+    print(f"Attribute not found: {e}")
 
 exportdisktype,importdisktype = find_best_format(source,destination)
 result["exportdisktype"]= exportdisktype
