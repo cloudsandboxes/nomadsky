@@ -8,5 +8,5 @@ sourcecloudurl = "https://create.leaf.cloud:5000"  # location of the current clo
 
 
 # Destination parameters:
-nics = [{"net-id": "496c99b9-4ae0-4cde-b648-d7412832b81b"}]  #network id
+nics = [{"net-id": "ee54f79e-d33a-4866-8df0-4a4576d70243"}]  #network id
 destinationcloudurl = "https://create.leaf.cloud:5000"  
