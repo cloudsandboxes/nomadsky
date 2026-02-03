@@ -28,7 +28,7 @@ def run_script():
     extraValue = data.get('extraValue', {})
     
     # Path to your scripts
-    script_path = f'C:/projects/nomadsky/code/nomadsky-engine/scripts/{script_name}'  
+    script_path = f'C:/projects/digitalnomadsky/code/nomadsky-engine/scripts/{script_name}'  
     try:
         result = subprocess.run(
             ['python', script_path, source, destination, vmname, json.dumps(extraValue), unique_id],
@@ -52,7 +52,7 @@ def run_flask():
     app.run(port=5000, debug=False, use_reloader=False)
 
 def show_processing_page():
-    with open('C:/projects/nomadsky/code/nomadsky-engine/UI/2)processing-page.html', 'r') as f:
+    with open('C:/projects/digitalnomadsky/code/nomadsky-engine/UI/2)processing-page.html', 'r') as f:
         html = f.read()
     
     html = html.replace('{{source}}', form_data.get('source', ''))
@@ -60,7 +60,7 @@ def show_processing_page():
     html = html.replace('{{vmname}}', form_data.get('vmname', ''))
     
     # Save to temp file
-    temp_path = 'C:/projects/nomadsky/code/nomadsky-engine/UI/temp_processing.html'
+    temp_path = 'C:/projects/digitalnomadsky/code/nomadsky-engine/UI/temp_processing.html'
     with open(temp_path, 'w') as f:
         f.write(html)
     
@@ -82,7 +82,7 @@ class Api:
         threading.Thread(target=load, daemon=True).start()
 
 # Read the form HTML
-with open('C:/projects/nomadsky/code/nomadsky-engine/UI/frontend.html', 'r') as f:
+with open('C:/projects/digitalnomadsky/code/nomadsky-engine/UI/frontend.html', 'r') as f:
     form_html = f.read()
 
 # Start Flask in background thread
