@@ -16,7 +16,7 @@ unique_id = sys.argv[5]
 
 if destination == 'azure':
       # Azure SDK code to find VM
-      sys.path.append(r"C:/projects/nomadsky/code/Microsoft")
+      sys.path.append(r"C:/projects/digitalnomadsky/code/Microsoft")
       import config
       from create_networking import create_network
           
