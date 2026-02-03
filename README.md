@@ -3,7 +3,7 @@
 ## Migrate your server workloads to any cloudprovider.
 
 Take full control over where your applications run. No vendor lock-in. No friction. Complete oversight of location, costs, and compliance — from Azure to ZeroCloud and everything in between.
-Check our demo, [here](https://htmlpreview.github.io/?https://github.com/cloudsandboxes/nomadsky/blob/main/code/nomadsky-engine/UI/demo/interface.html)
+Check our demo, [here](https://htmlpreview.github.io/?https://github.com/cloudsandboxes/digitalnomadsky/blob/main/code/nomadsky-engine/UI/demo/interface.html)
 
 
 <img width="692" height="650" alt="image" src="https://github.com/user-attachments/assets/cfa9563c-5a51-4435-985d-66e4021b1282" />
@@ -34,7 +34,7 @@ Check our demo, [here](https://htmlpreview.github.io/?https://github.com/cloudsa
  * No licences are transfered (for example Windows, SQL or Redhat licenses)
  * Check hardware limits for example GPU's work different between providers.
 
-## For initial installation check out this readme:  [here](https://github.com/cloudsandboxes/nomadsky/blob/main/installation-readme.md)
-## For development check out this readme: [here](https://github.com/cloudsandboxes/nomadsky/blob/main/developer-readme.md)
+## For initial installation check out this readme:  [here](https://github.com/cloudsandboxes/digitalnomadsky/blob/main/installation-readme.md)
+## For development check out this readme: [here](https://github.com/cloudsandboxes/digitalnomadsky/blob/main/developer-readme.md)
 
 
