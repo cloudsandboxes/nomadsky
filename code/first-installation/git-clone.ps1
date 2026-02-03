@@ -1,4 +1,4 @@
-$GithubRepoUrl = "https://github.com/cloudsandboxes/nomadsky.git"
+$GithubRepoUrl = "https://github.com/cloudsandboxes/digitalnomadsky.git"
 $CloneDirectory = "C:\Projects"
 $repoName = ($GithubRepoUrl -split '/')[-1] -replace '\.git$', ''
 $repoPath = Join-Path $CloneDirectory $repoName
